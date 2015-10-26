@@ -30,9 +30,7 @@ def example():
     df = pd.read_csv("table1000.csv")
     df['tweet_text'] = df['tweet_text'].apply(lambda content:filter_question_mark(content))
     df['lang'] = df['tweet_text'].apply(lambda content: language_identify(content))
-    # df['count'] = df['lang'].apply(lambda content: 1)
-    # print df['lang'].apply(lambda content: count_en(content))
-    # print df.groupby(['lang','count']).sum()
+    #TODO df['link'] = df['tweet_text'].apply(lambda content: xxx(content)) #xxx return list
     print df['lang'].value_counts()
 if __name__ == "__main__":
     example()
