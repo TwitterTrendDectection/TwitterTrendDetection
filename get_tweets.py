@@ -1,17 +1,22 @@
 import os
 import tweepy
+import json as json
 
 auth = tweepy.OAuthHandler("ltmdE1M5bgvzKgOrtzrXpBBLU", "4GqOV4zS0LmgrXuu2YE4sCaPgiUnC5kFBY2bM3y1utRkDbuHnZ")
 auth.set_access_token("2972025861-MaDigIstH835Ottkqk28pQynSshbyeBOtmd6R9M", "tzIKeulAqcXW9azRBF0E6OcwhXW7EcthO19EVQqrTpmhi")
 
-api = tweepy.API(auth)
+class MyModelParser(tweepy.parsers.ModelParser):
+    def parse(self, method, payload):
+        # result = super(tweepy.parsers.ModelParser, self).parse(method, payload)
+        # result._payload = payload
+        # print payload
+        return payload
+
+api = tweepy.API(auth, parser=MyModelParser())
 
 def get_tweets(id_list):
-    tweets = api.statuses_lookup(id_list)
-    result_string = ''
-    for tweet in tweets:
-        result_string += "{}\t{}\t{}\n".format(tweet.created_at, tweet.author.screen_name.encode('utf8'), tweet.text.encode('utf8'))
-    return result_string
+    tweets = api.statuses_lookup(id_list,include_entities=True)
+    return tweets
         
 
 if __name__ == '__main__':
@@ -19,8 +24,8 @@ if __name__ == '__main__':
     for i in os.listdir(os.getcwd() + '/tweets2'):
         print len(i)
         if len(i) == 32:
-            txt = open('./tweets2/'+i, 'r')
-            out = open('./tweets2/'+i+".tsv", 'w')
+            txt = open('./tweets/'+i, 'r')
+            out = open('./tweets/'+i+".json", 'w')
             tweet_id_list = []
             for tweet_id in txt:
                 if len(tweet_id) < 10:
@@ -33,5 +38,5 @@ if __name__ == '__main__':
                     tweet_id_list = []
                     count = count + 1
             result_string = get_tweets(tweet_id_list)
-            out.write(result_string)
+            out.write(result_string + "\n")
     print count
