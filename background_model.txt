@@ -1,0 +1,10 @@
+2
+and 0.5
+a 0.5
+from 0.5
+I 0.5
+country 0.5
+is 0.5
+am 0.5
+beautiful 0.5
+china 1.0

@@ -1,9 +1,5 @@
 # *****__author__ = 'Yan'*****
-
-
 import re
-
-
 def extract_link(list_text):
     print "start extracting link.\n"
     link_group = []
