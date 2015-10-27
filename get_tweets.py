@@ -1,6 +1,6 @@
 import os
 import tweepy
-import json as json
+import time
 
 auth = tweepy.OAuthHandler("ltmdE1M5bgvzKgOrtzrXpBBLU", "4GqOV4zS0LmgrXuu2YE4sCaPgiUnC5kFBY2bM3y1utRkDbuHnZ")
 auth.set_access_token("2972025861-MaDigIstH835Ottkqk28pQynSshbyeBOtmd6R9M", "tzIKeulAqcXW9azRBF0E6OcwhXW7EcthO19EVQqrTpmhi")
@@ -23,7 +23,7 @@ def get_tweets(id_list):
 
 if __name__ == '__main__':
     count = 0
-    for i in os.listdir(os.getcwd() + '/tweets2'):
+    for i in os.listdir(os.getcwd() + '/tweets'):
         print len(i)
         if len(i) == 32:
             txt = open('./tweets/'+i, 'r')
@@ -36,6 +36,7 @@ if __name__ == '__main__':
                 tweet_id_list.append(id)
                 if len(tweet_id_list) == 100:
                     result_string = get_tweets(tweet_id_list)
+                    time.sleep(16)
                     out.write(result_string)
                     tweet_id_list = []
                     count = count + 1
