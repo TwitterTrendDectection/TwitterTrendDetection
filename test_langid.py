@@ -1,7 +1,5 @@
-
 import langid
 import pandas as pd
-
 
 
 def language_identify(content):
@@ -13,8 +11,12 @@ def language_identify(content):
         return 'en'
     else:
         return tuple[0]
+
+
 def count_letters(word):
     return len(word) - word.count(' ')
+
+
 def filter_question_mark(content):
     threshold = 0.3
     count_question = content.count('?')
@@ -23,9 +25,13 @@ def filter_question_mark(content):
         return ""
     else:
         return content
+
+
 def count_en(content):
     if content == "en":
         return 1
+
+
 def example():
     df = pd.read_csv("table1000.csv")
     df['tweet_text'] = df['tweet_text'].apply(lambda content:filter_question_mark(content))
@@ -36,5 +42,7 @@ def example():
 
     #TODO df['at_people'] = df['tweet_text'].apply(lambda content: xxx(content)) #xxx return at_people list
     print df['lang'].value_counts()
+
+
 if __name__ == "__main__":
     example()
