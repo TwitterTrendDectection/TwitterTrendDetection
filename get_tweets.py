@@ -1,6 +1,7 @@
 import os
 import tweepy
 import time
+import tweepy.TweepError
 
 auth = tweepy.OAuthHandler("ltmdE1M5bgvzKgOrtzrXpBBLU", "4GqOV4zS0LmgrXuu2YE4sCaPgiUnC5kFBY2bM3y1utRkDbuHnZ")
 auth.set_access_token("2972025861-MaDigIstH835Ottkqk28pQynSshbyeBOtmd6R9M", "tzIKeulAqcXW9azRBF0E6OcwhXW7EcthO19EVQqrTpmhi")
@@ -17,7 +18,10 @@ api = tweepy.API(auth, parser=MyModelParser())
 def get_tweets(id_list):
     if len(id_list) < 1:
         return ''
-    tweets = api.statuses_lookup(id_list,include_entities=True)
+    try:
+        tweets = api.statuses_lookup(id_list,include_entities=True)
+    except TweepError as e:
+        print e.response.status
     return tweets+"\n"
         
 
@@ -37,9 +41,9 @@ if __name__ == '__main__':
                 if len(tweet_id_list) == 100:
                     result_string = get_tweets(tweet_id_list)
                     time.sleep(16)
-                    out.write(result_string)
+                    out.write(result_string.encode("utf8"))
                     tweet_id_list = []
                     count = count + 1
             result_string = get_tweets(tweet_id_list)
-            out.write(result_string)
+            out.write(result_string.encode("utf8"))
     print count
