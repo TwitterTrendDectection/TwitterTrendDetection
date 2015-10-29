@@ -1,5 +1,5 @@
-from nltk.stem.lancaster import LancasterStemmer
-st = LancasterStemmer()
+# from nltk.stem.lancaster import LancasterStemmer
+# st = LancasterStemmer()
 
 class background_model:
     'Common base class for background model'
@@ -72,3 +72,5 @@ if __name__ == "__main__":
     print bm.get_word_count("and")
     bm.add_word_count("china")
     print bm.get_word_count("china")
+    import nltk
+    nltk.download()
