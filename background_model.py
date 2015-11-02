@@ -1,8 +1,23 @@
 # from nltk.stem.lancaster import LancasterStemmer
 # st = LancasterStemmer()
-
+from preprocess_nlp import tokenize,stemmize,remove_stop_words
+import pandas as pd
+import time
 class background_model:
     'Common base class for background model'
+    def read_data_frame(self, data_frame):
+
+        data_frame['list_words'] = data_frame['tweet_text'].apply(lambda content: tokenize(content))
+        data_frame['list_words'] = data_frame['list_words'].apply(lambda word_list: stemmize(word_list))
+        data_frame['list_words'] = data_frame['list_words'].apply(lambda word_list: remove_stop_words(word_list))
+
+        start = time.time()
+        tweet_word_lists = data_frame['list_words']
+        for word_list in tweet_word_lists:
+            for word in word_list:
+                self.add_word_count(word)
+
+        print time.time() - start
 
     def __init__(self, new_time_interval):
         self.background_dictionary = {}
@@ -57,20 +72,48 @@ class background_model:
         else:
             self.background_dictionary[word] = 1.0 / self.time_interval
 
-if __name__ == "__main__":
-    word_list = ['I','am','from','china','and','china','is','a','beautiful','country']
-    bm = background_model(new_time_interval = 2)
-    bm.read_file(word_list)
+def example():
+    df = pd.DataFrame([], columns=['tweet_text'])
+    str = "There is also a corpus of instant messaging chat sessions"
+    for i in range(10):
+        df.loc[i] = str
 
-    bm.read_model_from_model_file()
-    print bm.get_word_count("and")
-    bm.add_word_count("and")
-    print bm.get_word_count("and")
-    bm.add_word_count("and")
-    print bm.get_word_count("and")
-    bm.add_word_count("and")
-    print bm.get_word_count("and")
-    bm.add_word_count("china")
-    print bm.get_word_count("china")
-    import nltk
-    nltk.download()
+    print df['tweet_text']
+
+if __name__ == "__main__":
+    # word_list = ['I','am','from','china','and','china','is','a','beautiful','country']
+    example()
+    df = pd.DataFrame([], columns=['tweet_text'])
+    bm = background_model(new_time_interval = 1)
+    # str = "There is also a corpus of instant messaging chat sessions"
+    #
+    #
+    # for i in range(10):
+    #     df.loc[i] = str
+    # start = time.time()
+    # df['list_words'] = df['tweet_text'].apply(lambda content: tokenize(content))
+    # df['list_words'] = df['list_words'].apply(lambda word_list: stemmize(word_list))
+    # df['list_words'] = df['list_words'].apply(lambda word_list: remove_stop_words(word_list))
+    #
+    # print time.time() - start
+    # #
+    # # start = time.time()
+    # #
+    # bm.read_data_frame(df)
+    # bm.write_model_to_model_file()
+    #
+    # print time.time() - start
+    # bm.read_file(word_list)
+    #
+    # bm.read_model_from_model_file()
+    # print bm.get_word_count("and")
+    # bm.add_word_count("and")
+    # print bm.get_word_count("and")
+    # bm.add_word_count("and")
+    # print bm.get_word_count("and")
+    # bm.add_word_count("and")
+    # print bm.get_word_count("and")
+    # bm.add_word_count("china")
+    # print bm.get_word_count("china")
+    # import nltk
+    # nltk.download()

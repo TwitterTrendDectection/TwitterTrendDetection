@@ -1,10 +1,24 @@
-2
-and 0.5
-a 0.5
-from 0.5
-I 0.5
-country 0.5
-is 0.5
-am 0.5
-beautiful 0.5
-china 1.0
+1
+origin 10000.0
+sev 10000.0
+chat 10000.0
+sess 10000.0
+detect 10000.0
+pred 10000.0
+research 10000.0
+wher 10000.0
+also 10000.0
+nav 10000.0
+internet 10000.0
+fil 20000.0
+mess 10000.0
+autom 10000.0
+inst 10000.0
+org 10000.0
+ther 10000.0
+school 10000.0
+15 10000.0
+collect 10000.0
+postgradu 10000.0
+contain 20000.0
+corp 30000.0
