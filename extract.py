@@ -1,26 +1,27 @@
 # *****__author__ = 'Yan'*****
-import re
-def extract_link(list_text):
-    print "start extracting link.\n"
-    link_group = []
-    regex = r'https?://[^\s<>"]+|www\.[^\s<>"]+'
-    for text in list_text:
-        match = re.search(regex, text)
-        if match:
-            print "succeed.\n"
-            print match.group() + "\n"
-            link_group.append(match.group())
-        else:
-            print "failed.\n"
-    return link_group
 
-# use this line to execute the main function
+
+import pandas as pd
+import glob as gb
+
+
+def read_json():
+    json_file_names = gb.glob("json_files/*.json")
+    # print json_file_names[0]
+    data = []
+    for json_file in json_file_names:
+        lines = open(json_file, 'r').read().split("\n")
+        for line in lines:
+            if len(line) == 0:
+                continue
+            data.append(pd.read_json(line))
+            # print type(data).__name__
+    data = pd.concat(data)
+    print len(data)
+    print "Read all json files."
+    return data
+
+
 if __name__ == "__main__":
-    list_tweet = []
-    tweet1 = "Increased defense and domestic spending. https://t.co/Rnopp8mT1D"
-    tweet2 = "Top 5 most addictive iOS games. http://t.co/rWGeXW9cdT"
-    tweet3 = "Who is Guan Wang? Interesting question. www.t.co/Bpg6kq6lW5"
-    list_tweet.append(tweet1)
-    list_tweet.append(tweet2)
-    list_tweet.append(tweet3)
-    extract_link(list_tweet)
+    json_content = read_json()
+    print "Finished reading the json files folder."

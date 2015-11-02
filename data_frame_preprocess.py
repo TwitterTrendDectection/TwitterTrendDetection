@@ -7,11 +7,11 @@ def language_identify(content):
     threshold = 0.5
     if content == "":
         return ''
-    tuple = langid.classify(content)
-    if tuple[0] == 'en' and float(tuple[1]) > threshold:
+    tuples = langid.classify(content)
+    if tuples[0] == 'en' and float(tuples[1]) > threshold:
         return 'en'
     else:
-        return tuple[0]
+        return tuples[0]
 
 
 def count_letters(word):
@@ -53,9 +53,9 @@ def example():
     df['tweet_text'] = df['tweet_text'].apply(lambda content:filter_question_mark(content))
     df['lang'] = df['tweet_text'].apply(lambda content: language_identify(content))
     df['link'] = df['tweet_text'].apply(lambda content: extract_link(content))
-    #TODO df['hashtag'] = df['tweet_text'].apply(lambda content: xxx(content)) #xxx return hashtags' list
+    # TODO: df['hashtag'] = df['tweet_text'].apply(lambda content: xxx(content)) #xxx return hashtags' list
 
-    #TODO df['at_people'] = df['tweet_text'].apply(lambda content: xxx(content)) #xxx return at_people list
+    # TODO: df['at_people'] = df['tweet_text'].apply(lambda content: xxx(content)) #xxx return at_people list
     print df['lang'].value_counts()
 
 
