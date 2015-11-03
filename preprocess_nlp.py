@@ -2,8 +2,8 @@
 from nltk.tokenize import word_tokenize
 # from nltk import bigrams,trigrams
 from collections import defaultdict
-
-from nltk.stem.lancaster import LancasterStemmer
+from nltk.stem import WordNetLemmatizer
+# from nltk.stem.lancaster import LancasterStemmer
 
 def ngrams(words, n, padding=False):
     "Compute n-grams with optional padding"
@@ -31,10 +31,10 @@ def tokenize(raw_text):
   # tokens = raw_text.replace(","," ").split(" ")
   return tokens
 
-def stemmize(word_list):
-    st = LancasterStemmer()
+def lemmetize(word_list, st):
+    # st = LancasterStemmer()
     for i in range(len(word_list)):
-        word_list[i] = st.stem(word_list[i])
+        word_list[i] = st.lemmatize(word_list[i])
     return word_list
 
 def remove_stop_words(word_list):
@@ -63,7 +63,8 @@ if __name__ == "__main__":
                               "contains the date, chatroom, and number of posts; e.g., 10-19-20s_706posts.xml " \
                               "contains 706 posts gathered from the 20s chat room on 10/19/2006."
   list = tokenize(article)
-  list = stemmize(list)
+  st = WordNetLemmatizer()
+  list = lemmetize(list, st)
   list = remove_stop_words(list)
 
 
