@@ -8,7 +8,7 @@ class background_model:
     'Common base class for background model'
     def read_data_frame(self, data_frame):
         st = WordNetLemmatizer()
-        data_frame['list_words'] = data_frame['tweet_text'].apply(lambda content: tokenize(content))
+        data_frame['list_words'] = data_frame['text'].apply(lambda content: tokenize(content))
         data_frame['list_words'] = data_frame['list_words'].apply(lambda word_list: lemmetize(word_list, st))
         data_frame['list_words'] = data_frame['list_words'].apply(lambda word_list: remove_stop_words(word_list))
 
@@ -75,7 +75,7 @@ class background_model:
             self.background_dictionary[word] = 1.0 / self.time_interval
 
 def example():
-    df = pd.DataFrame([], columns=['tweet_text'])
+    df = pd.DataFrame([], columns=['text'])
     str = "There is also a corpus of instant messaging chat sessions"
     for i in range(10):
         df.loc[i] = str
