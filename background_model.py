@@ -17,12 +17,7 @@ class background_model:
         series = data_frame.list_words.apply(lambda x: pd.value_counts(x)).sum(axis = 0)
         for key in series.index:
             self.background_dictionary[key] = series[key] / self.time_interval
-        # print series[0]
-        # for key in series:
-            # print str(key) + " " + str(series[key])
-        # for word_list in tweet_word_lists:
-        #     for word in word_list:
-        #         self.add_word_count(word)
+
 
         print "read data_frame time " + str(time.time() - start)
 

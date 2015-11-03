@@ -63,3 +63,7 @@ target/
 test.py
 
 json_eg
+
+*.txt
+
+*.csv

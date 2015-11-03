@@ -19,11 +19,16 @@ class hot_words_generator:
                     hot_words.append(key)
         return hot_words
 if __name__ == "__main__":
-    df = pd.DataFrame(["There is also a corpus of instant messaging chat sessions",
-                       "originally collected by the Naval Postgraduate School for research",
-                       "on automatic detection of Internet predators. The corpus contains",
-                       "over 10,000 posts, anonymized by replacing usernames with generic names of"
-                       ], columns=['tweet_text'])
+
+    df = pd.read_csv("df_all_data.csv")
+
+    # time_interval =
+
+    # df = pd.DataFrame(["There is also a corpus of instant messaging chat sessions",
+    #                    "originally collected by the Naval Postgraduate School for research",
+    #                    "on automatic detection of Internet predators. The corpus contains",
+    #                    "over 10,000 posts, anonymized by replacing usernames with generic names of"
+    #                    ], columns=['tweet_text'])
     bm = background_model(new_time_interval = 4)
     bm.read_data_frame(df)
 
