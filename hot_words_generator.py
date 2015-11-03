@@ -20,19 +20,12 @@ class hot_words_generator:
         return hot_words
 if __name__ == "__main__":
 
-    df = pd.read_csv("df_all_data.csv")
+    df = pd.read_csv("train_text_time.csv", encoding="utf-8", parse_dates=True, lineterminator="\n")
 
-    # time_interval =
-
-    # df = pd.DataFrame(["There is also a corpus of instant messaging chat sessions",
-    #                    "originally collected by the Naval Postgraduate School for research",
-    #                    "on automatic detection of Internet predators. The corpus contains",
-    #                    "over 10,000 posts, anonymized by replacing usernames with generic names of"
-    #                    ], columns=['tweet_text'])
-    bm = background_model(new_time_interval = 4)
+    bm = background_model(new_time_interval = 292)
     bm.read_data_frame(df)
 
-    df_2 = pd.DataFrame(["sessions corpus sessions anonymized replace replace replace"], columns=['tweet_text'])
+    df_2 = pd.read_csv("test_text_time.csv", encoding="utf-8", parse_dates=True, lineterminator="\n")
     test_bm = background_model(new_time_interval = 1)
     test_bm.read_data_frame(df_2)
 

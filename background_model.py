@@ -7,12 +7,15 @@ import time
 class background_model:
     'Common base class for background model'
     def read_data_frame(self, data_frame):
-        st = WordNetLemmatizer()
-        data_frame['list_words'] = data_frame['text'].apply(lambda content: tokenize(content))
-        data_frame['list_words'] = data_frame['list_words'].apply(lambda word_list: lemmetize(word_list, st))
-        data_frame['list_words'] = data_frame['list_words'].apply(lambda word_list: remove_stop_words(word_list))
-
         start = time.time()
+        st = WordNetLemmatizer()
+        print 'start preprocessing'
+        data_frame['list_words'] = data_frame['text'].apply(lambda content: tokenize(content))
+        print 'tokenize finished'
+        data_frame['list_words'] = data_frame['list_words'].apply(lambda word_list: lemmetize(word_list, st))
+        print 'lemmetize finished'
+        data_frame['list_words'] = data_frame['list_words'].apply(lambda word_list: remove_stop_words(word_list))
+        print 'remove_stop_words finished'
 
         series = data_frame.list_words.apply(lambda x: pd.value_counts(x)).sum(axis = 0)
         for key in series.index:
