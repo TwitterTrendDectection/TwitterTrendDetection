@@ -6,6 +6,7 @@ import glob as gb
 import json
 
 
+# read json files into pandas
 def pandas_json():
     json_file_names = gb.glob("parsed_json_files/*.json")
     data = []
@@ -20,6 +21,7 @@ def pandas_json():
     return data
 
 
+# read json files with python file load
 def read_json():
     json_file_names = gb.glob("parsed_json_files/*.json")
     # print json_file_names[0]
