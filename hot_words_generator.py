@@ -9,12 +9,12 @@ class hot_words_generator:
     def detect_hot_words(self):
         hot_words = []
         for key in self.test_model.background_dictionary:
-            O = self.test_model.background_dictionary[key]
+            Observation = self.test_model.background_dictionary[key]
             if key in self.train_model.background_dictionary:
-                E = self.train_model.background_dictionary[key]
+                Evaluation = self.train_model.background_dictionary[key]
             else:
-                E = 0
-            trend_score = math.pow((O - E),2) / (E + 1)
+                Evaluation = 0
+            trend_score = math.pow((Observation - Evaluation),2) / (Evaluation + 1)
             if trend_score > self.threshold:
                     hot_words.append(key)
         return hot_words

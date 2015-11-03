@@ -13,10 +13,16 @@ class background_model:
         data_frame['list_words'] = data_frame['list_words'].apply(lambda word_list: remove_stop_words(word_list))
 
         start = time.time()
-        tweet_word_lists = data_frame['list_words']
-        for word_list in tweet_word_lists:
-            for word in word_list:
-                self.add_word_count(word)
+
+        series = data_frame.list_words.apply(lambda x: pd.value_counts(x)).sum(axis = 0)
+        for key in series.index:
+            self.background_dictionary[key] = series[key] / self.time_interval
+        # print series[0]
+        # for key in series:
+            # print str(key) + " " + str(series[key])
+        # for word_list in tweet_word_lists:
+        #     for word in word_list:
+        #         self.add_word_count(word)
 
         print "read data_frame time " + str(time.time() - start)
 
@@ -64,12 +70,12 @@ class background_model:
         if word in self.background_dictionary:
             return self.background_dictionary[word]
         else:
-            return -1
+            return 0
 
     def add_word_count(self, word):
         if word in self.background_dictionary:
             self.background_dictionary[word] = ((self.background_dictionary[word] * self.time_interval) + 1) * 1.0
-            self.background_dictionary[word] = self.background_dictionary[word] * 1.0 / self.time_interval
+            self.background_dictionary[word] = self.background_dictionary[word] / self.time_interval
         else:
             self.background_dictionary[word] = 1.0 / self.time_interval
 
@@ -92,8 +98,10 @@ if __name__ == "__main__":
     bm = background_model(new_time_interval = 4)
     bm.read_data_frame(df)
 
-    df_2 = pd.DataFrame(["sessions corpus sessions anonymized replace replace replace"], columns=['tweet_text'])
-    test_bm = background_model(new_time_interval = 1)
-    test_bm.read_data_frame(df_2)
+    bm.write_model_to_model_file()
+
+    # df_2 = pd.DataFrame(["sessions corpus sessions anonymized replace replace replace"], columns=['tweet_text'])
+    # test_bm = background_model(new_time_interval = 1)
+    # test_bm.read_data_frame(df_2)
 
 
