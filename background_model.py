@@ -18,6 +18,7 @@ class background_model:
         print 'remove_stop_words finished'
 
         series = data_frame.list_words.apply(lambda x: pd.value_counts(x)).sum(axis = 0)
+        print 'count finished'
         for key in series.index:
             self.background_dictionary[key] = series[key] / self.time_interval
 
