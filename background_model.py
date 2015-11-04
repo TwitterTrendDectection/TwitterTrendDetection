@@ -7,7 +7,9 @@ import time
 class background_model:
     'Common base class for background model'
     def read_data_frame(self, data_frame):
+        start = time.time()
         st = WordNetLemmatizer()
+
         start = time.time()
 
         data_frame['text'] = data_frame['text'].apply(lambda content: remove_punctuation(content))
@@ -50,6 +52,7 @@ class background_model:
         # for key in series.index:
         #     self.background_dictionary[key] = series[key] / self.time_interval
         # print "time to add it to dictionary: " + str(time.time() - start)
+
 
 
         # self.background_dictionary = series

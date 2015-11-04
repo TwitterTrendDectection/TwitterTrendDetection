@@ -21,6 +21,7 @@ class hot_words_generator:
         return hot_words
 if __name__ == "__main__":
 
+
     # df = pd.read_csv()
     start = time.time()
     df = pd.read_csv("train_text_time_en.csv", encoding="utf-8", parse_dates=True, lineterminator="\n")
@@ -35,6 +36,7 @@ if __name__ == "__main__":
     #                    ], columns=['tweet_text'])
     bm = background_model(new_time_interval = 292)
     bm.read_data_frame(df)
+
 
     test_bm = background_model(new_time_interval = 1)
     test_bm.read_data_frame(df_2)
