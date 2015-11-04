@@ -2,9 +2,9 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-df = pd.read_csv("df_text_date.csv")
+df = pd.read_csv("df_all_data6.csv", encoding = "utf-8", parse_dates = True, lineterminator = "\n")
 df['created_at'] = df['created_at'].astype('datetime64[ns]')
-df.drop('id', axis = 1, inplace = True)
+# df.drop('id', axis = 1, inplace = True)
 df.drop('text', axis = 1, inplace = True)
 grouped = df.groupby('created_at')
 #g = grouped.groups

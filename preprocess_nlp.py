@@ -5,6 +5,11 @@ from collections import defaultdict
 from nltk.stem import WordNetLemmatizer
 # from nltk.stem.lancaster import LancasterStemmer
 
+def lowercase(word_list):
+    for i in range(len(word_list)):
+        word_list[i] = word_list[i].lower()
+    return word_list
+
 def ngrams(words, n, padding=False):
     "Compute n-grams with optional padding"
     pad = [] if not padding else [None]*(n-1)
@@ -47,6 +52,12 @@ def remove_stop_words(word_list):
     word_list = [term for term in word_list if term not in stop]
     return word_list
 
+def remove_punctuation(raw_text):
+    import string
+    #remove punctuation
+    for c in string.punctuation:
+        raw_text = raw_text.replace(c,"")
+    return raw_text
 
 if __name__ == "__main__":
   # word_list = ["I","am","a","nice","guy"]

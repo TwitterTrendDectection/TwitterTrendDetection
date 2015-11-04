@@ -1,6 +1,6 @@
 # from nltk.stem.lancaster import LancasterStemmer
 # st = LancasterStemmer()
-from preprocess_nlp import tokenize,lemmetize,remove_stop_words
+from preprocess_nlp import tokenize,lemmetize,remove_stop_words,lowercase,remove_punctuation
 from nltk.stem import WordNetLemmatizer
 import pandas as pd
 import time
@@ -8,20 +8,56 @@ class background_model:
     'Common base class for background model'
     def read_data_frame(self, data_frame):
         st = WordNetLemmatizer()
-        data_frame['list_words'] = data_frame['text'].apply(lambda content: tokenize(content))
-        data_frame['list_words'] = data_frame['list_words'].apply(lambda word_list: lemmetize(word_list, st))
-        data_frame['list_words'] = data_frame['list_words'].apply(lambda word_list: remove_stop_words(word_list))
-
         start = time.time()
 
-        series = data_frame.list_words.apply(lambda x: pd.value_counts(x)).sum(axis = 0)
-        for key in series.index:
-            self.background_dictionary[key] = series[key] / self.time_interval
+        data_frame['text'] = data_frame['text'].apply(lambda content: remove_punctuation(content))
+        print "time to remove punctuation: " + str(time.time() - start)
+
+        start = time.time()
+        data_frame['list_words'] = data_frame['text'].apply(lambda content: tokenize(content))
+        print "time to tokenize: " + str(time.time() - start)
+
+        start = time.time()
+        data_frame['list_words'] = data_frame['list_words'].apply(lambda word_list: lemmetize(word_list, st))
+        print "time to lemmetize: " + str(time.time() - start)
+
+        start = time.time()
+        data_frame['list_words'] = data_frame['list_words'].apply(lambda word_list: remove_stop_words(word_list))
+        print "time to remove stop words: " + str(time.time() - start)
+
+        start = time.time()
+        data_frame['list_words'] = data_frame['list_words'].apply(lambda word_list: lowercase(word_list))
+        print "time to lowercase words in word_list: " + str(time.time() - start)
+
+        start = time.time()
+        tweets_list_words = data_frame['list_words']
+        for tweet_list_words in tweets_list_words:
+            for word in tweet_list_words:
+                if word in self.background_dictionary:
+                    self.background_dictionary[word] += 1
+                else:
+                    self.background_dictionary[word] = 1
+
+        print "time to generate model dictionary: " + str(time.time() - start)
 
 
-        print "read data_frame time " + str(time.time() - start)
+        # start = time.time()
+        # series = data_frame.list_words.apply(lambda x: pd.value_counts(x)).sum(axis = 0)
+        # print "time to generate key value pairs: " + str(time.time() - start)
+
+
+        # start = time.time()
+        # for key in series.index:
+        #     self.background_dictionary[key] = series[key] / self.time_interval
+        # print "time to add it to dictionary: " + str(time.time() - start)
+
+
+        # self.background_dictionary = series
+
+        # print "read data_frame time " + str(time.time() - start)
 
     def __init__(self, new_time_interval):
+        # self.background_dictionary = {}
         self.background_dictionary = {}
         self.time_interval = new_time_interval;# default time interval is 1 hour
 
@@ -89,7 +125,7 @@ if __name__ == "__main__":
                        "originally collected by the Naval Postgraduate School for research",
                        "on automatic detection of Internet predators. The corpus contains",
                        "over 10,000 posts, anonymized by replacing usernames with generic names of"
-                       ], columns=['tweet_text'])
+                       ], columns=['text'])
     bm = background_model(new_time_interval = 4)
     bm.read_data_frame(df)
 

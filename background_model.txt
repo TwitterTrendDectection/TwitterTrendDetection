@@ -1,10 +1,10 @@
 4
 replacing 0.25
-There 6.5
+There 0.25
 detection 0.25
 10,000 0.25
-session 6.5
-chat 6.5
+session 0.25
+chat 0.25
 Internet 0.25
 The 0.25
 usernames 0.25
@@ -12,16 +12,16 @@ generic 0.25
 Postgraduate 0.25
 contains 0.25
 research 0.25
-also 6.5
+also 0.25
 collected 0.25
-corpus 6.75
+corpus 0.5
 School 0.25
 Naval 0.25
 anonymized 0.25
 predator 0.25
 post 0.25
-instant 6.5
+instant 0.25
 name 0.25
 originally 0.25
-messaging 6.5
+messaging 0.25
 automatic 0.25
