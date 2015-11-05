@@ -1,6 +1,6 @@
 # from nltk.stem.lancaster import LancasterStemmer
 # st = LancasterStemmer()
-from preprocess_nlp import tokenize,lemmetize,remove_stop_words,lowercase,remove_punctuation
+from preprocess_nlp import tokenize,lemmetize,remove_stop_words,lowercase,remove_punctuation, remove_words_contain_numbers
 from nltk.stem import WordNetLemmatizer
 import pandas as pd
 import time
@@ -11,13 +11,19 @@ class background_model:
         st = WordNetLemmatizer()
 
         start = time.time()
-
         data_frame['text'] = data_frame['text'].apply(lambda content: remove_punctuation(content))
         print "time to remove punctuation: " + str(time.time() - start)
 
         start = time.time()
+
+
+        start = time.time()
         data_frame['list_words'] = data_frame['text'].apply(lambda content: tokenize(content))
         print "time to tokenize: " + str(time.time() - start)
+
+        start = time.time()
+        data_frame['list_words'] = data_frame['list_words'].apply(lambda word_list: remove_stop_words(word_list))
+        print "time to remove stop words: " + str(time.time() - start)
 
         start = time.time()
         data_frame['list_words'] = data_frame['list_words'].apply(lambda word_list: lemmetize(word_list, st))
@@ -30,6 +36,10 @@ class background_model:
         start = time.time()
         data_frame['list_words'] = data_frame['list_words'].apply(lambda word_list: lowercase(word_list))
         print "time to lowercase words in word_list: " + str(time.time() - start)
+
+        start = time.time()
+        data_frame['list_words'] = data_frame['list_words'].apply(lambda word_list: remove_words_contain_numbers(word_list))
+        print "time to remove words that contain numbers: " + str(time.time() - start)
 
         start = time.time()
         tweets_list_words = data_frame['list_words']

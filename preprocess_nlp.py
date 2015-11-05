@@ -10,6 +10,8 @@ def lowercase(word_list):
         word_list[i] = word_list[i].lower()
     return word_list
 
+
+
 def ngrams(words, n, padding=False):
     "Compute n-grams with optional padding"
     pad = [] if not padding else [None]*(n-1)
@@ -33,11 +35,9 @@ def ngrams_wrapper(words, n, padding = False):
 
 def tokenize(raw_text):
   tokens = word_tokenize(raw_text)
-  # tokens = raw_text.replace(","," ").split(" ")
   return tokens
 
 def lemmetize(word_list, st):
-    # st = LancasterStemmer()
     for i in range(len(word_list)):
         word_list[i] = st.lemmatize(word_list[i])
     return word_list
@@ -46,11 +46,15 @@ def remove_stop_words(word_list):
     from nltk.corpus import stopwords
     import string
     #remove english and also punctuation
-    # punctuation = [string.punctuation]
     punctuation = [char for char in string.punctuation]
     stop = stopwords.words('english') + punctuation + ['rt', 'via']
     word_list = [term for term in word_list if term not in stop]
     return word_list
+
+def remove_words_contain_numbers(word_list):
+    import re
+    res = [s for s in word_list if not re.search(r'\d',s)]
+    return res
 
 def remove_punctuation(raw_text):
     import string
