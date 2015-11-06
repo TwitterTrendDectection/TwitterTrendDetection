@@ -4,6 +4,7 @@
 import pandas as pd
 import glob as gb
 import json
+import csv
 
 
 # read json files into pandas
@@ -18,6 +19,9 @@ def pandas_json():
                 continue
             data.append(pd.read_json(line))
     data = pd.concat(data)
+    output_data = data
+    output_data.to_csv('csv_files/df_text_date.csv', index=False, index_label=True, encoding='utf-8')
+
     return data
 
 
