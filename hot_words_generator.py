@@ -53,7 +53,8 @@ if __name__ == "__main__":
     f = open("hotwords.csv",'w')
     hot_words.append(u"bats\u00E0")
     for i in hot_words:
-        f.write(i.encode('utf-8') + "\n")
+        if len(i) != 1:
+            f.write(i.encode('utf-8') + "\n")
     f.close()
 
     print "time to write hotwords file: " + str(time.time() - start)

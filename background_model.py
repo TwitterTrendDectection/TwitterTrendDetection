@@ -26,16 +26,16 @@ class background_model:
         print "time to remove stop words: " + str(time.time() - start)
 
         start = time.time()
+        data_frame['list_words'] = data_frame['list_words'].apply(lambda word_list: lowercase(word_list))
+        print "time to lowercase words in word_list: " + str(time.time() - start)
+
+        start = time.time()
         data_frame['list_words'] = data_frame['list_words'].apply(lambda word_list: lemmetize(word_list, st))
         print "time to lemmetize: " + str(time.time() - start)
 
         start = time.time()
         data_frame['list_words'] = data_frame['list_words'].apply(lambda word_list: remove_stop_words(word_list))
         print "time to remove stop words: " + str(time.time() - start)
-
-        start = time.time()
-        data_frame['list_words'] = data_frame['list_words'].apply(lambda word_list: lowercase(word_list))
-        print "time to lowercase words in word_list: " + str(time.time() - start)
 
         start = time.time()
         data_frame['list_words'] = data_frame['list_words'].apply(lambda word_list: remove_words_contain_numbers(word_list))
