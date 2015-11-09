@@ -2,8 +2,15 @@
 from nltk.tokenize import word_tokenize
 # from nltk import bigrams,trigrams
 from collections import defaultdict
+from nltk.stem import WordNetLemmatizer
+# from nltk.stem.lancaster import LancasterStemmer
 
-from nltk.stem.lancaster import LancasterStemmer
+def lowercase(word_list):
+    for i in range(len(word_list)):
+        word_list[i] = word_list[i].lower()
+    return word_list
+
+
 
 def ngrams(words, n, padding=False):
     "Compute n-grams with optional padding"
@@ -28,25 +35,33 @@ def ngrams_wrapper(words, n, padding = False):
 
 def tokenize(raw_text):
   tokens = word_tokenize(raw_text)
-  # tokens = raw_text.replace(","," ").split(" ")
   return tokens
 
-def stemmize(word_list):
-    st = LancasterStemmer()
+def lemmetize(word_list, st):
     for i in range(len(word_list)):
-        word_list[i] = st.stem(word_list[i])
+        word_list[i] = st.lemmatize(word_list[i])
     return word_list
 
 def remove_stop_words(word_list):
     from nltk.corpus import stopwords
     import string
     #remove english and also punctuation
-    # punctuation = [string.punctuation]
     punctuation = [char for char in string.punctuation]
     stop = stopwords.words('english') + punctuation + ['rt', 'via']
     word_list = [term for term in word_list if term not in stop]
     return word_list
 
+def remove_words_contain_numbers(word_list):
+    import re
+    res = [s for s in word_list if not re.search(r'\d',s)]
+    return res
+
+def remove_punctuation(raw_text):
+    import string
+    #remove punctuation
+    for c in string.punctuation:
+        raw_text = raw_text.replace(c,"")
+    return raw_text
 
 if __name__ == "__main__":
   # word_list = ["I","am","a","nice","guy"]
@@ -63,7 +78,8 @@ if __name__ == "__main__":
                               "contains the date, chatroom, and number of posts; e.g., 10-19-20s_706posts.xml " \
                               "contains 706 posts gathered from the 20s chat room on 10/19/2006."
   list = tokenize(article)
-  list = stemmize(list)
+  st = WordNetLemmatizer()
+  list = lemmetize(list, st)
   list = remove_stop_words(list)
 
 

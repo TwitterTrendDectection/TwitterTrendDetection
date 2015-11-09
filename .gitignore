@@ -64,9 +64,16 @@ test.py
 
 json_eg
 
-*.json
 *.txt
+
 *.csv
+
+.classpath
+
+.settings
+
+.project
+
+csv_files/df_all_data.csv
+
 *.pkl
-
-
