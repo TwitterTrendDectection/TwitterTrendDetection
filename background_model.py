@@ -8,14 +8,11 @@ class background_model:
     'Common base class for background model'
     def read_data_frame(self, data_frame):
         start = time.time()
-        st = WordNetLemmatizer()
+        wnl = WordNetLemmatizer()
 
         start = time.time()
         data_frame['text'] = data_frame['text'].apply(lambda content: remove_punctuation(content))
         print "time to remove punctuation: " + str(time.time() - start)
-
-        start = time.time()
-
 
         start = time.time()
         data_frame['list_words'] = data_frame['text'].apply(lambda content: tokenize(content))
@@ -29,9 +26,17 @@ class background_model:
         data_frame['list_words'] = data_frame['list_words'].apply(lambda word_list: lowercase(word_list))
         print "time to lowercase words in word_list: " + str(time.time() - start)
 
+        # start = time.time()
+        # data_frame['list_words'] = data_frame['list_words'].apply(lambda word_list: lemmetize(word_list, wnl))
+
         start = time.time()
-        data_frame['list_words'] = data_frame['list_words'].apply(lambda word_list: lemmetize(word_list, st))
+        visited = {}
+        for i, row in data_frame.iterrows():
+            word_list = row['list_words']
+            # print i
+            data_frame.set_value(i, 'list_words',lemmetize(word_list, wnl, visited))
         print "time to lemmetize: " + str(time.time() - start)
+
 
         start = time.time()
         data_frame['list_words'] = data_frame['list_words'].apply(lambda word_list: remove_stop_words(word_list))
@@ -51,23 +56,6 @@ class background_model:
                     self.background_dictionary[word] = 1
 
         print "time to generate model dictionary: " + str(time.time() - start)
-
-
-        # start = time.time()
-        # series = data_frame.list_words.apply(lambda x: pd.value_counts(x)).sum(axis = 0)
-        # print "time to generate key value pairs: " + str(time.time() - start)
-
-
-        # start = time.time()
-        # for key in series.index:
-        #     self.background_dictionary[key] = series[key] / self.time_interval
-        # print "time to add it to dictionary: " + str(time.time() - start)
-
-
-
-        # self.background_dictionary = series
-
-        # print "read data_frame time " + str(time.time() - start)
 
     def __init__(self, new_time_interval):
         # self.background_dictionary = {}

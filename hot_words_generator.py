@@ -29,17 +29,13 @@ if __name__ == "__main__":
     threshold = 10
     print "load two dataframe: " + str(time.time() - start) #1.6s
 
-    # df = pd.DataFrame(["There is also a corpus of instant messaging chat sessions",
-    #                    "originally collected by the Naval Postgraduate School for research",
-    #                    "on automatic detection of Internet predators. The corpus contains",
-    #                    "over 10,000 posts, anonymized by replacing usernames with generic names of"
-    #                    ], columns=['tweet_text'])
     bm = background_model(new_time_interval = 292)
     bm.read_data_frame(df)
-
+    bm.write_model_to_model_file()
 
     test_bm = background_model(new_time_interval = 1)
     test_bm.read_data_frame(df_2)
+
 
     start = time.time()
 
