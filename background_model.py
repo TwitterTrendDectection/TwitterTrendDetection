@@ -37,8 +37,6 @@ class background_model:
             data_frame.set_value(i, 'list_words',lemmetize(word_list, wnl, visited))
         print "time to lemmetize: " + str(time.time() - start)
 
-        # for list_word in data_frame['list_words']:
-        #     lemmetize(list_word, wnl, visited)
 
         start = time.time()
         data_frame['list_words'] = data_frame['list_words'].apply(lambda word_list: remove_stop_words(word_list))
@@ -58,23 +56,6 @@ class background_model:
                     self.background_dictionary[word] = 1
 
         print "time to generate model dictionary: " + str(time.time() - start)
-
-
-        # start = time.time()
-        # series = data_frame.list_words.apply(lambda x: pd.value_counts(x)).sum(axis = 0)
-        # print "time to generate key value pairs: " + str(time.time() - start)
-
-
-        # start = time.time()
-        # for key in series.index:
-        #     self.background_dictionary[key] = series[key] / self.time_interval
-        # print "time to add it to dictionary: " + str(time.time() - start)
-
-
-
-        # self.background_dictionary = series
-
-        # print "read data_frame time " + str(time.time() - start)
 
     def __init__(self, new_time_interval):
         # self.background_dictionary = {}
