@@ -97,9 +97,9 @@ def remove_punctuation(raw_text):
     return raw_text
 
 if __name__ == "__main__":
-  print "h"
-  for i in range(1,100000):
-    from nltk import pos_tag
+  # print "h"
+  # for i in range(1,100000):
+  #   from nltk import pos_tag
   # word_list = ["I","am","a","nice","guy"]
   # grab n-grams
   # words = ['the','cats','sat','on','mines','lies','going','got','cooler']
@@ -133,4 +133,6 @@ if __name__ == "__main__":
   # three_gram = ngrams_wrapper(words,1)
   # print three_gram
 # import nltk
-
+    wnl = wnl = WordNetLemmatizer()
+    word_list = lemmetize(['marketing','confusing','downloading'], wnl, {})
+    print word_list
