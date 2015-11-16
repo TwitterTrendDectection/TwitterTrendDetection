@@ -102,8 +102,10 @@ class background_model:
         #write model from single file
         f = open('./file/' + "background_model.txt",'w')
         f.write(str(self.time_interval) + "\n")
+        key = u'\u201c'
+        self.background_dictionary[key] = 100
         for key in self.background_dictionary:
-            f.write(key + " " + str(self.background_dictionary[key]) + "\n")
+            f.write(key.encode('utf-8') + " " + str(self.background_dictionary[key]) + "\n")
         f.close()
 
     def get_word_count(self, word):
@@ -138,6 +140,8 @@ if __name__ == "__main__":
     bm.read_data_frame(df)
 
     bm.write_model_to_model_file()
-
+    bm.read_model_from_model_file('background_model.txt')
+    for key in bm.background_dictionary:
+        print key + " " + str(bm.background_dictionary[key])
 
 

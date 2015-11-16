@@ -25,12 +25,17 @@ class hot_words_generator:
                     hot_words.append(key)
         return hot_words
 
-def train_save_model(train_file, train_time_file):
-    df = pd.read_csv('./file/' + train_file, encoding="utf-8", parse_dates=True, lineterminator="\n")
+def train_save_model(train_time_file):
+    df = pd.read_csv('./file/' + train_time_file, encoding="utf-8", parse_dates=True, lineterminator="\n")
+    print "get the dataframe from train_file"
     time_interval = time_explore.get_time_interval(train_time_file)
+    print "get the time interval"
     bm = background_model(new_time_interval = time_interval)
+    print "initialize the background model"
     bm.read_data_frame(df)
+    print "read in the dataframe"
     bm.write_model_to_model_file()
+    print "write to file"
 
 
 def test_model(test_time_file, trained_model = "../file/background_model.txt", threshold = 10):
@@ -52,10 +57,11 @@ def write_hotwords_to_file(hotwords, generated_file = "hotwords.csv"):
             f.write(i.encode('utf-8') + "\n")
     f.close()
 if __name__ == "__main__":
-    test_file = "test_time_example.csv"
-    test_time_file = "test_time_example.csv"
-    hotwords = test_model(test_time_file)
-    write_hotwords_to_file(hotwords)
+    # test_file = "test_time_example.csv"
+    # test_time_file = "test_time_example.csv"
+    # hotwords = test_model(test_time_file)
+    # write_hotwords_to_file(hotwords)
+    # train_file = 'test_time_example.csv'
+    train_time_file = 'test_time_example.csv'
 
-
-
+    train_save_model(train_time_file)
