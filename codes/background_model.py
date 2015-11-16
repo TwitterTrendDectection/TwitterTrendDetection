@@ -4,9 +4,11 @@ from preprocess_nlp import tokenize,lemmetize,remove_stop_words,lowercase,remove
 from nltk.stem import WordNetLemmatizer
 import pandas as pd
 import time
+import pickle
+
 class background_model:
-    def read_data_frame(self, data_frame, visited = {}):
-        start = time.time()
+    def read_data_frame(self, data_frame):
+        # start = time.time()
         wnl = WordNetLemmatizer()
 
         start = time.time()
@@ -27,12 +29,13 @@ class background_model:
 
         start = time.time()
         for i, row in data_frame.iterrows():
+            if i % 100 == 0:
+                print i
             word_list = row['list_words']
-            # print i
-            data_frame.set_value(i, 'list_words',lemmetize(word_list, wnl, visited))
+            data_frame.set_value(i, 'list_words',lemmetize(word_list, wnl, self.visited))
         print "time to lemmetize: " + str(time.time() - start)
 
-        self.write_pos_tag_words(visited)
+        self.write_pos_tag_words()
 
         start = time.time()
         data_frame['list_words'] = data_frame['list_words'].apply(lambda word_list: remove_stop_words(word_list))
@@ -53,24 +56,18 @@ class background_model:
 
         print "time to generate model dictionary: " + str(time.time() - start)
 
-    def write_pos_tag_words(self, visited, pos_tag_filename = "pos_tag.txt"):
-        f = open('./file/' + pos_tag_filename,'w')
-        for key in visited:
-            f.write(key + " " + str(visited[key]) + " " + "\n")
-        f.close()
+    def write_pos_tag_words(self):
+
+        pickle.dump(self.visited, open('../file/pos_tag.pkl','w'))
 
     def get_pos_tag_words(self, pos_tag_filename = "pos_tag.txt"):
-        visited = {}
-        f = open('./file/' + pos_tag_filename, 'r')
-        for line in f:
-            str = line.split()
-            visited[str[0]] = int(str[1])
-        f.close()
+
+        self.pos_tag = pickle.load(open('../file/pos_tag.pkl','r'))
 
     def __init__(self, new_time_interval = 1):
         self.background_dictionary = {}
-        self.time_interval = new_time_interval;# default time interval is 1 hour
-
+        self.time_interval = new_time_interval# default time interval is 1 hour
+        self.visited = {}
     def read_file(self, word_list):
         f = self.open_model_write()
         for word in word_list:
@@ -83,33 +80,17 @@ class background_model:
     def close_model(self,f):
         f.close()
 
-    def read_model_from_model_file(self, model_filename = "background_model.txt"):
-        f = open('./file/' + model_filename,'r')
-        line_number = 0
-        for line in f:
-            if line_number == 0:
-                #read time interval
-                self.time_interval = int(line[:-1])
-            else:
-                split_line = line.split(' ')
-                key = split_line[0]
-                value = float(split_line[1])
-                self.background_dictionary[key] = value
-            line_number += 1
-        f.close()
+    def read_model_from_model_file(self):
+
+        self.background_dictionary = pickle.load(open('../file/background_dictionary.pkl','r'))
+        self.time_interval = pickle.load(open('../file/time_interval.pkl','r'))
 
     def write_model_to_model_file(self):
-        #write model from single file
-        f = open('./file/' + "background_model.txt",'w')
-        f.write(str(self.time_interval) + "\n")
-        key = u'\u201c'
-        self.background_dictionary[key] = 100
-        for key in self.background_dictionary:
-            f.write(key.encode('utf-8') + " " + str(self.background_dictionary[key]) + "\n")
-        f.close()
+
+        pickle.dump(self.background_dictionary, open('../file/background_dictionary.pkl','w'))
+        pickle.dump(self.time_interval, open('../file/time_interval.pkl','w'))
 
     def get_word_count(self, word):
-        #get the word's count from the model
         if word in self.background_dictionary:
             return self.background_dictionary[word]
         else:
@@ -122,14 +103,6 @@ class background_model:
         else:
             self.background_dictionary[word] = 1.0 / self.time_interval
 
-def example():
-    df = pd.DataFrame([], columns=['text'])
-    str = "There is also a corpus of instant messaging chat sessions"
-    for i in range(10):
-        df.loc[i] = str
-
-    # print df['tweet_text']
-
 if __name__ == "__main__":
     df = pd.DataFrame(["There is also a corpus of instant messaging chat sessions",
                        "originally collected by the Naval Postgraduate School for research",
@@ -140,7 +113,7 @@ if __name__ == "__main__":
     bm.read_data_frame(df)
 
     bm.write_model_to_model_file()
-    bm.read_model_from_model_file('background_model.txt')
+    bm.read_model_from_model_file()
     for key in bm.background_dictionary:
         print key + " " + str(bm.background_dictionary[key])
 
