@@ -77,3 +77,8 @@ json_eg
 csv_files/df_all_data.csv
 
 *.pkl
+*.txt
+
+*.txt
+
+*.csv
