@@ -12,7 +12,7 @@ for key, value in t.iteritems():
     groups.append(s)
     lists.append(value)
 
-thresh = 5
+thresh = 30
 for i in xrange(len(t)):
     #print i
     for j in xrange(i):
@@ -23,7 +23,7 @@ for i in xrange(len(t)):
         sj = lists[j]
         if len(si.intersection(sj)) >= thresh:
             groups[i] = gi.union(gj)
-            lists[i] = si.intersection(sj)
+            lists[i] = si.union(sj)
             groups[j] = set()
             lists[j] = set()
 
@@ -41,7 +41,7 @@ for x in pairs:
 
 result = pairs[:len(groups)-count]
 
-with open('groupburst.txt','w')as f:
+with open('groupburst_30_new.txt','w')as f:
     for x in result:
         f.write(str(x[0]))
         f.write(str(x[1]))
