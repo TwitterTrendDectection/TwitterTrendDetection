@@ -58,22 +58,22 @@ def lemmetize(word_list, wnl, visited):
         else:
             no_see_before.append(item)
 
-    if len(no_see_before) > 0:
-        tag_list = pos_tag(no_see_before)
-        for item in tag_list:
-            tag = item[1].lower()
-            lemmetized = item[0]
-            if 'v' in tag:
-                lemmetized = wnl.lemmatize(item[0],pos = 'v')
-
-            elif 'n' in tag:
-                lemmetized = wnl.lemmatize(item[0],pos = 'n')
-
-            elif 'a' in tag:
-                lemmetized = wnl.lemmatize(item[0],pos = 'a')
-
-            res.append(lemmetized)
-            visited[item[0]] = lemmetized
+    # if len(no_see_before) > 0:
+    #     tag_list = pos_tag(no_see_before)
+    #     for item in tag_list:
+    #         tag = item[1].lower()
+    #         lemmetized = item[0]
+    #         if 'v' in tag:
+    #             lemmetized = wnl.lemmatize(item[0],pos = 'v')
+    #
+    #         elif 'n' in tag:
+    #             lemmetized = wnl.lemmatize(item[0],pos = 'n')
+    #
+    #         elif 'a' in tag:
+    #             lemmetized = wnl.lemmatize(item[0],pos = 'a')
+    #
+    #         res.append(lemmetized)
+    #         visited[item[0]] = lemmetized
     return res
 
 

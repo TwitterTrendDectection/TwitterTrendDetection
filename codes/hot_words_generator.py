@@ -22,7 +22,7 @@ class hot_words_generator:
                 Evaluation = 0
             trend_score = math.pow((Observation - Evaluation),2) / (Evaluation + 1)
             if trend_score > self.threshold:
-                    hot_words.append(key)
+                hot_words.append((Observation, key))
         return hot_words
 
 def train_save_model(train_time_file):
@@ -68,5 +68,5 @@ if __name__ == "__main__":
     test_time_file = "test_time_example.csv"
     hotwords = test_model(test_time_file, threshold=10)
 
-    print hotwords
+
 
