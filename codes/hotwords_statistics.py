@@ -17,10 +17,7 @@ freq = []
 for i in hotwords:
     hotword.append(i[1])
     freq.append(i[0])
-# # print type(pos_tag)
-#
-# plt.plot(hotwords, frequency)
-# plt.plot([1,2,3])
+
 py.sign_in('benji.b', '4r26wpg85l')
 data = [
     go.Bar(

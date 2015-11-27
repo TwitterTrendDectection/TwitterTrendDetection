@@ -1,6 +1,6 @@
 # from nltk.stem.lancaster import LancasterStemmer
 # st = LancasterStemmer()
-from preprocess_nlp import tokenize,lemmetize,remove_stop_words,lowercase,remove_punctuation, remove_words_contain_numbers
+from preprocess_nlp import *
 from nltk.stem import WordNetLemmatizer
 import pandas as pd
 import time
@@ -28,12 +28,13 @@ class background_model:
         print "time to lowercase words in word_list: " + str(time.time() - start)
 
         start = time.time()
-        for i, row in data_frame.iterrows():
-            if i % 100 == 0:
-                print i
-            word_list = row['list_words']
-            data_frame.set_value(i, 'list_words',lemmetize(word_list, wnl, self.visited))
-        print "time to lemmetize: " + str(time.time() - start)
+        # for i, row in data_frame.iterrows():
+        #     if i % 100 == 0:
+        #         print i
+        #     word_list = row['list_words']
+        #     data_frame.set_value(i, 'list_words',lemmetize(word_list, wnl, self.visited))
+        data_frame['list_words'] = data_frame['list_words'].apply(lambda word_list: stemmize(word_list))
+        print "time to stemmetize: " + str(time.time() - start)
 
         self.write_pos_tag_words()
 

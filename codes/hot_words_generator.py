@@ -62,11 +62,14 @@ def test_model(test_time_file, threshold = 10):
 def write_hotwords_to_file(hotwords, generated_file = "hotwords.csv"):
     pickle.dump(hotwords, open('../file/hotwords.pkl','w'))
 if __name__ == "__main__":
-    train_time_file = "train_time_example.csv"
+    train_time_file = "train_text_time_en.csv"
     train_save_model(train_time_file)
 
     test_time_file = "test_time_example.csv"
     hotwords = test_model(test_time_file, threshold=10)
 
-
+    f = open("hotwords_aft.txt",'w')
+    for line in hotwords:
+        f.write(line + "\n")
+    f.close()
 

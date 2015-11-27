@@ -6,7 +6,7 @@ from collections import defaultdict
 from nltk.stem import WordNetLemmatizer
 # from nltk.stem.lancaster import LancasterStemmer
 from nltk import pos_tag
-
+from nltk.stem.snowball import SnowballStemmer
 def lowercase(word_list):
     for i in range(len(word_list)):
         word_list[i] = word_list[i].lower()
@@ -98,6 +98,13 @@ def remove_punctuation(raw_text):
     for c in punctuation:
         raw_text = raw_text.replace(c,"")
     return raw_text
+
+def stemmize(tokens):
+    res = []
+    for token in tokens:
+        res.append(SnowballStemmer("english").stem(token))
+    return res
+
 
 if __name__ == "__main__":
 
