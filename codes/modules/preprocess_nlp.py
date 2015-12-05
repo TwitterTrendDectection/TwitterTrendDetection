@@ -83,7 +83,7 @@ def remove_stop_words(word_list):
     #remove english and also punctuation
     punctuation = [char for char in string.punctuation]
     stop = stopwords.words('english') + punctuation + ['rt', 'via']
-    word_list = [term for term in word_list if term not in stop]
+    word_list = [term for term in word_list if term not in stop and term.find('http') == -1]
     return word_list
 
 def remove_words_contain_numbers(word_list):

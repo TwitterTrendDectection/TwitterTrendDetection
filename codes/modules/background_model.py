@@ -1,11 +1,14 @@
 # from nltk.stem.lancaster import LancasterStemmer
 # st = LancasterStemmer()
-from preprocess_nlp import *
-from nltk.stem import WordNetLemmatizer
-import pandas as pd
-import time
 import pickle
-import util
+import time
+
+import pandas as pd
+from preprocess_nlp import *
+
+import codes.modules.util
+
+
 class background_model:
     def read_data_frame(self, data_frame):
 
@@ -20,12 +23,12 @@ class background_model:
         print "time to tokenize: " + str(time.time() - start)
 
         start = time.time()
-        data_frame['list_words'] = data_frame['list_words'].apply(lambda word_list: remove_stop_words(word_list))
-        print "time to remove stop words: " + str(time.time() - start)
-
-        start = time.time()
         data_frame['list_words'] = data_frame['list_words'].apply(lambda word_list: lowercase(word_list))
         print "time to lowercase words in word_list: " + str(time.time() - start)
+
+        start = time.time()
+        data_frame['list_words'] = data_frame['list_words'].apply(lambda word_list: remove_stop_words(word_list))
+        print "time to remove stop words: " + str(time.time() - start)
 
         start = time.time()
         # for i, row in data_frame.iterrows():
@@ -83,13 +86,13 @@ class background_model:
 
     def read_model_from_model_file(self):
 
-        self.background_dictionary = pickle.load(open('../file/' + util.background_dictionary_filename,'r'))
-        self.time_interval = pickle.load(open('../file/' + util.time_interval_filename,'r'))
+        self.background_dictionary = pickle.load(open('../file/' + codes.modules.util.background_dictionary_filename, 'r'))
+        self.time_interval = pickle.load(open('../file/' + codes.modules.util.time_interval_filename, 'r'))
 
     def write_model_to_model_file(self):
 
-        pickle.dump(self.background_dictionary, open('../file/' + util.background_dictionary_filename,'w'))
-        pickle.dump(self.time_interval, open('../file/' + util.time_interval_filename,'w'))
+        pickle.dump(self.background_dictionary, open('../file/' + codes.modules.util.background_dictionary_filename, 'w'))
+        pickle.dump(self.time_interval, open('../file/' + codes.modules.util.time_interval_filename, 'w'))
 
 
 if __name__ == "__main__":

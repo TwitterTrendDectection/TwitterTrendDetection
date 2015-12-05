@@ -8,18 +8,18 @@ import scipy.sparse as sparse
 import nltk
 
 
-def engine():
+def engine(n_topic):
     tweet_token, tweet_dict = file_reader()
     total_dict = get_dict(tweet_token)
     token_top = dict(sorted(total_dict.iteritems(), key=operator.itemgetter(1), reverse=True)[:1000])
     token_list = list(token_top.keys())
     tweet_mtx = feature_matrix(tweet_token, tweet_dict, token_list)
-    topic_extract(tweet_mtx, token_list)
+    topic_extract(tweet_mtx, token_list, n_topic=n_topic)
 
 
-def topic_extract(x, vocab):
+def topic_extract(x, vocab, n_topic):
     print "Starting topic generator."
-    model = lda.LDA(n_topics=1, n_iter=50, random_state=1)
+    model = lda.LDA(n_topics=n_topic, n_iter=50, random_state=1)
     model.fit(x)  # model.fit_transform(X) is also available
     topic_word = model.topic_word_  # model.components_ also works
     n_top_words = 3
@@ -67,7 +67,7 @@ def get_dict(review_token):
 
 
 def file_reader():
-    tweet_path = '../train_text_time_en.csv'
+    tweet_path = '../file/test_sorted_tweets_en.csv'
     # stop_word = stopword_reader()
     stop_word = nltk.corpus.stopwords.words('english')
     token_list = []
@@ -102,13 +102,13 @@ def tokenize(text, stop_words):
     return str_token, text_dict
 
 
-def stopword_reader():
-    list_path = "resources/stopword.list"
-    word_set = set()
-    list_file = open(list_path, 'r').read().split("\n")
-    for line in list_file:
-        word_set.add(line)
-    return word_set
+# def stopword_reader():
+#     list_path = "resources/stopword.list"
+#     word_set = set()
+#     list_file = open(list_path, 'r').read().split("\n")
+#     for line in list_file:
+#         word_set.add(line)
+#     return word_set
 
 if __name__ == "__main__":
-    engine()
+    engine(3)
