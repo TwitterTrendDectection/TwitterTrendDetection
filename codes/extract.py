@@ -9,20 +9,22 @@ import csv
 
 # read json files into pandas
 def pandas_json():
-    json_file_names = gb.glob("parsed_json_files/*.json")
-    data = []
+    json_file_names = gb.glob("../data/*.json")
+    
     for json_file in json_file_names:
+        data = []
         print json_file
         lines = open(json_file, 'r').read().split("\n")
         for line in lines:
             if len(line) == 0:
                 continue
             data.append(pd.read_json(line))
-    data = pd.concat(data)
-    output_data = data
-    output_data.to_csv('csv_files/df_text_date.csv', index=False, index_label=True, encoding='utf-8')
+        data = pd.concat(data)
+        data.to_csv('../csv_file/{}.csv'.format(json_file.split('/')[-1]), index=False, index_label=True, encoding='utf-8')
+    # output_data = data
+    # output_data.to_csv('csv_files/df_text_date.csv', index=False, index_label=True, encoding='utf-8')
 
-    return data
+    # return data
 
 
 # read json files with python file load
@@ -45,6 +47,6 @@ def read_json():
 
 
 if __name__ == "__main__":
-    tweet_df = pandas_json()
+    pandas_json()
     # print tweet_df.iloc[1]['hash_tags'][0]
     print "Finished reading the json files folder."

@@ -62,7 +62,7 @@ def retrive_tweets_by_screen_name(screen_name):
     count = 0
     tweets, payload = retrive_single_batch_by_screen_name(screen_name)
     print count
-    while len(tweets) == 200:
+    while len(tweets) > 10:
         tweets, payload = retrive_single_batch_by_screen_name(screen_name, tweets[-1]["id"])
         out.write(payload.encode("utf8"))
         out.write("\n")
@@ -72,4 +72,4 @@ def retrive_tweets_by_screen_name(screen_name):
     out.close()
 
 if __name__ == '__main__':
-    retrive_tweets_by_screen_name("realDonaldTrump")
+    retrive_tweets_by_screen_name("JayZClassicBars")

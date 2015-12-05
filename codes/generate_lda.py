@@ -1,13 +1,11 @@
-# __author__ = 'Yan'
-
-
 import numpy as np
 import lda
-import lda.datasets
+from lda import LDA
 import csv
 import re
 import operator
 import scipy.sparse as sparse
+import nltk
 
 
 def engine():
@@ -69,8 +67,9 @@ def get_dict(review_token):
 
 
 def file_reader():
-    tweet_path = 'resources/train_text_time_en.csv'
-    stop_word = stopword_reader()
+    tweet_path = '../train_text_time_en.csv'
+    # stop_word = stopword_reader()
+    stop_word = nltk.corpus.stopwords.words('english')
     token_list = []
     dict_list = []
     count = 0
