@@ -1,6 +1,6 @@
 import pickle
 
-def group_burst(pickle_file = 'word_to_set.pkl', generate_file = 'groupburst.txt'):
+def group_burst(pickle_file,generate_file):
     with open(pickle_file, 'r') as f:
         t = pickle.loads(f.read())
     f.close()
@@ -41,12 +41,15 @@ def group_burst(pickle_file = 'word_to_set.pkl', generate_file = 'groupburst.txt
             count += 1
 
     result = pairs[:len(groups)-count]
+    print result[0]
+    print result[1]
+    # with open(generate_file,'w')as f:
+    #     for x in result:
+    #         f.write(str(x[0]) + " " + str(x[1]) + '\n')
+    #
+    # f.close()
+    pickle.dump(result, open(generate_file, 'wb'))
 
-    with open(generate_file,'w')as f:
-        for x in result:
-            f.write(str(x[0]) + " " + str(x[1]) + '\n')
-
-    f.close()
 
 if __name__ == "__main__":
     group_burst()

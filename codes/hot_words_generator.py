@@ -2,7 +2,7 @@ import math
 import time
 
 import pandas as pd
-
+import util
 from background_model import background_model
 import time_explore
 import pickle
@@ -46,9 +46,8 @@ def test_model(test_time_file, threshold = 10):
     if time_interval == 0:
         time_interval = 1
     test_background_model = background_model(new_time_interval = time_interval)
-    test_background_model.visited = pickle.load(open('../file/pos_tag.pkl','r'))
+    # test_background_model.visited = pickle.load(open('../file/pos_tag.pkl','r'))
     test_background_model.read_data_frame(df)
-    # test_background_model.visited =
 
 
     trained_background_model = background_model()
@@ -56,20 +55,20 @@ def test_model(test_time_file, threshold = 10):
 
     generator = hot_words_generator(trained_background_model,test_background_model,threshold)
     hotwords = generator.detect_hot_words()
+    write_hotwords_to_file(hotwords)
 
     return hotwords
 
-def write_hotwords_to_file(hotwords, generated_file = "hotwords.csv"):
-    pickle.dump(hotwords, open('../file/hotwords.pkl','w'))
+def write_hotwords_to_file(hotwords):
+    hotwords_list = []
+    for hotword in hotwords:
+        hotwords_list.append(hotword[1])
+    pickle.dump(hotwords_list, open('../file/' + util.hotwords_file,'w'))
 if __name__ == "__main__":
+    print "ok"
     train_time_file = "train_text_time_en.csv"
     train_save_model(train_time_file)
-
-    test_time_file = "test_time_example.csv"
-    hotwords = test_model(test_time_file, threshold=10)
-
-    f = open("hotwords_aft.txt",'w')
-    for line in hotwords:
-        f.write(line + "\n")
-    f.close()
-
+    test_time_file = "test_text_time_en.csv"
+    test_model(test_time_file)
+    hotwords = pickle.load(open('../file/hotwords_2.pkl','rb'))
+    print len(hotwords)

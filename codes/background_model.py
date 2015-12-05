@@ -5,11 +5,11 @@ from nltk.stem import WordNetLemmatizer
 import pandas as pd
 import time
 import pickle
-
+import util
 class background_model:
     def read_data_frame(self, data_frame):
-        # start = time.time()
-        wnl = WordNetLemmatizer()
+
+        # wnl = WordNetLemmatizer()
 
         start = time.time()
         data_frame['text'] = data_frame['text'].apply(lambda content: remove_punctuation(content))
@@ -36,7 +36,7 @@ class background_model:
         data_frame['list_words'] = data_frame['list_words'].apply(lambda word_list: stemmize(word_list))
         print "time to stemmetize: " + str(time.time() - start)
 
-        self.write_pos_tag_words()
+        # self.write_pos_tag_words()
 
         start = time.time()
         data_frame['list_words'] = data_frame['list_words'].apply(lambda word_list: remove_stop_words(word_list))
@@ -57,52 +57,40 @@ class background_model:
 
         print "time to generate model dictionary: " + str(time.time() - start)
 
-    def write_pos_tag_words(self):
-
-        pickle.dump(self.visited, open('../file/pos_tag.pkl','w'))
-
-    def get_pos_tag_words(self, pos_tag_filename = "pos_tag.txt"):
-
-        self.pos_tag = pickle.load(open('../file/pos_tag.pkl','r'))
+    # def write_pos_tag_words(self):
+    #
+    #     pickle.dump(self.visited, open('../file/' + util.pos_tag_filename,'w'))
+    #
+    # def get_pos_tag_words(self):
+    #
+    #     self.pos_tag = pickle.load(open('../file/' + util.pos_tag_filename,'r'))
 
     def __init__(self, new_time_interval = 1):
         self.background_dictionary = {}
         self.time_interval = new_time_interval# default time interval is 1 hour
-        self.visited = {}
-    def read_file(self, word_list):
-        f = self.open_model_write()
-        for word in word_list:
-            self.add_word_count(word)
-        self.write_model_to_model_file()
-        self.close_model(f)
-    def open_model_write(self, model_filename = "background_model.txt"):
-        f = open('./file/' + model_filename,'w')
-        return f
-    def close_model(self,f):
-        f.close()
+        # self.visited = {}
+    # def read_file(self, word_list):
+        # f = self.open_model_write()
+        # for word in word_list:
+        #     self.add_word_count(word)
+        # self.write_model_to_model_file()
+        # self.close_model(f)
+    # def open_model_write(self, ):
+    #     f = open('./file/' + util.model_filename,'w')
+    #     return f
+    # def close_model(self,f):
+    #     f.close()
 
     def read_model_from_model_file(self):
 
-        self.background_dictionary = pickle.load(open('../file/background_dictionary.pkl','r'))
-        self.time_interval = pickle.load(open('../file/time_interval.pkl','r'))
+        self.background_dictionary = pickle.load(open('../file/' + util.background_dictionary_filename,'r'))
+        self.time_interval = pickle.load(open('../file/' + util.time_interval_filename,'r'))
 
     def write_model_to_model_file(self):
 
-        pickle.dump(self.background_dictionary, open('../file/background_dictionary.pkl','w'))
-        pickle.dump(self.time_interval, open('../file/time_interval.pkl','w'))
+        pickle.dump(self.background_dictionary, open('../file/' + util.background_dictionary_filename,'w'))
+        pickle.dump(self.time_interval, open('../file/' + util.time_interval_filename,'w'))
 
-    def get_word_count(self, word):
-        if word in self.background_dictionary:
-            return self.background_dictionary[word]
-        else:
-            return 0
-
-    def add_word_count(self, word):
-        if word in self.background_dictionary:
-            self.background_dictionary[word] = ((self.background_dictionary[word] * self.time_interval) + 1) * 1.0
-            self.background_dictionary[word] = self.background_dictionary[word] / self.time_interval
-        else:
-            self.background_dictionary[word] = 1.0 / self.time_interval
 
 if __name__ == "__main__":
     df = pd.DataFrame(["There is also a corpus of instant messaging chat sessions",
