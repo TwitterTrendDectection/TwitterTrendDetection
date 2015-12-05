@@ -47,7 +47,6 @@ def test_model(test_time_file, threshold = 10):
     if time_interval == 0:
         time_interval = 1
     test_background_model = background_model(new_time_interval = time_interval)
-    # test_background_model.visited = pickle.load(open('../file/pos_tag.pkl','r'))
     test_background_model.read_data_frame(df)
 
 
