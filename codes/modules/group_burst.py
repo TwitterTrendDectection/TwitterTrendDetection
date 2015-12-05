@@ -41,8 +41,7 @@ def group_burst(pickle_file,generate_file):
             count += 1
 
     result = pairs[:len(groups)-count]
-    print result[0]
-    print result[1]
+
     # with open(generate_file,'w')as f:
     #     for x in result:
     #         f.write(str(x[0]) + " " + str(x[1]) + '\n')
