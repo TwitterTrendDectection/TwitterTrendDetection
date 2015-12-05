@@ -94,7 +94,7 @@ def remove_words_contain_numbers(word_list):
 def remove_punctuation(raw_text):
     import string
     #remove punctuation
-    punctuation = string.punctuation + u'‘’“”…。，';
+    punctuation = string.punctuation + u'‘’“”…。，'
     for c in punctuation:
         raw_text = raw_text.replace(c,"")
     return raw_text
@@ -108,6 +108,6 @@ def stemmize(tokens):
 
 if __name__ == "__main__":
 
-    wnl = wnl = WordNetLemmatizer()
+    wnl = WordNetLemmatizer()
     word_list = lemmetize(['marketing','confusing','downloading'], wnl, {})
     print word_list

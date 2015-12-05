@@ -6,23 +6,29 @@ import re
 import operator
 import scipy.sparse as sparse
 import nltk
+import os
+import glob
 
 
-def engine(n_topic):
-    tweet_token, tweet_dict = file_reader()
-    total_dict = get_dict(tweet_token)
-    token_top = dict(sorted(total_dict.iteritems(), key=operator.itemgetter(1), reverse=True)[:1000])
-    token_list = list(token_top.keys())
-    tweet_mtx = feature_matrix(tweet_token, tweet_dict, token_list)
-    topic_extract(tweet_mtx, token_list, n_topic=n_topic)
 
 
-def topic_extract(x, vocab, n_topic):
+def engine(n_topic, n_top_words):
+    print os.getcwd()
+    csv_list = glob.glob('../../file/personal/*.csv')
+    for x in csv_list:
+        tweet_token, tweet_dict = file_reader(x)
+        total_dict = get_dict(tweet_token)
+        token_top = dict(sorted(total_dict.iteritems(), key=operator.itemgetter(1), reverse=True)[:1000])
+        token_list = list(token_top.keys())
+        tweet_mtx = feature_matrix(tweet_token, tweet_dict, token_list)
+        topic_extract(tweet_mtx, token_list, n_topic=n_topic, n_top_words=n_top_words)
+
+
+def topic_extract(x, vocab, n_topic, n_top_words):
     print "Starting topic generator."
     model = lda.LDA(n_topics=n_topic, n_iter=50, random_state=1)
     model.fit(x)  # model.fit_transform(X) is also available
     topic_word = model.topic_word_  # model.components_ also works
-    n_top_words = 3
     for i, topic_dist in enumerate(topic_word):
         topic_words = np.array(vocab)[np.argsort(topic_dist)][:-(n_top_words+1):-1]
         print('Topic {}: {}'.format(i, ' '.join(topic_words)))
@@ -66,9 +72,7 @@ def get_dict(review_token):
     return token_dict
 
 
-def file_reader():
-    tweet_path = '../file/test_sorted_tweets_en.csv'
-    # stop_word = stopword_reader()
+def file_reader(tweet_path):
     stop_word = nltk.corpus.stopwords.words('english')
     token_list = []
     dict_list = []
@@ -111,4 +115,4 @@ def tokenize(text, stop_words):
 #     return word_set
 
 if __name__ == "__main__":
-    engine(3)
+    engine(10,5)
