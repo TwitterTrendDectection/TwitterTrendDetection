@@ -39,8 +39,8 @@ def construct_test_file_matrix(test_time_file):
     group_trends = pickle.load(open('./file/' + generate_groupburst_file,'rb'))
     ith = 0
     res_list_matrix = []
+    list_word_vector = []
     list_word_dictionary = []
-
     # count = 0
     for trend_tuple in group_trends:
         id_set = trend_tuple[1]
@@ -53,10 +53,10 @@ def construct_test_file_matrix(test_time_file):
         if ith == 0:
             print df_subset
         m_trend = build_matrix(df_subset, word_dictionary)
-        # if m_trend.shape[0] == 1:
-            # count += 1
+
         res_list_matrix.append(m_trend)
-        list_word_dictionary.append(dict_vector)
+        list_word_vector.append(dict_vector)
+        list_word_dictionary.append(word_dictionary)
 
         ith += 1
     # print count
