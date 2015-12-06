@@ -17,6 +17,6 @@ test_time_file = "test_sorted_tweets_en.csv"
 #
 construct_test_file_matrix('../file/test_sorted_tweets_en.csv')
 a = pickle.load(open('../file/word_dictionary_list.pkl','rb'))
-print len(a[0])
+print a[0]
 b = pickle.load(open('../file/trend_matrix.pkl','rb'))
 print b[0].shape
