@@ -14,16 +14,16 @@ def count(content):
             word_to_set[word]=tweet_set
 
 def generate_hotword_to_tweet_dictionary(tweet_test_file, hotword_file, generate_file):
-    df_2 = pd.read_csv('../file/'+tweet_test_file, encoding="utf-8", parse_dates=True, lineterminator="\n")
+    df_2 = pd.read_csv('./file/'+tweet_test_file, encoding="utf-8", parse_dates=True, lineterminator="\n")
     test_bm = background_model(new_time_interval = 1)
     test_bm.read_data_frame(df_2)
 
     # for word in open('./file/' + hotword_file, "r"):
-    for word in pickle.load(open('../file/' + hotword_file, 'rb')):
+    for word in pickle.load(open('./file/' + hotword_file, 'rb')):
         hot_word_list.add(word.strip())
 
     df_2.apply(lambda content: count(content), axis=1)
-    pickle.dump(word_to_set, open(generate_file, "wb"))
+    pickle.dump(word_to_set, open('./file/' + generate_file, "wb"))
 
 if __name__ == "__main__":
     hotword_file = "hotwords_2.pkl"

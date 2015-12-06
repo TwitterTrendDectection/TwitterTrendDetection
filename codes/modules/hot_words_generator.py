@@ -1,10 +1,9 @@
 import math
 import pickle
 
-import util
+import config
 import pandas as pd
-
-import codes.modules.time_explore
+import time_explore
 from background_model import background_model
 
 
@@ -27,9 +26,9 @@ class hot_words_generator:
         return hot_words
 
 def train_save_model(train_time_file):
-    df = pd.read_csv('../file/' + train_time_file, encoding="utf-8", parse_dates=True, lineterminator="\n")
+    df = pd.read_csv('./file/' + train_time_file, encoding="utf-8", parse_dates=True, lineterminator="\n")
     print "get the dataframe from train_file"
-    time_interval = codes.modules.time_explore.get_time_interval(train_time_file)
+    time_interval = time_explore.get_time_interval(train_time_file)
     print "train file time interval: " + str(time_interval)
     # print "get the time interval"
     bm = background_model(new_time_interval = time_interval)
@@ -41,8 +40,8 @@ def train_save_model(train_time_file):
 
 
 def test_model(test_time_file, threshold = 10):
-    df = pd.read_csv('../file/' + test_time_file, encoding="utf-8", parse_dates=True, lineterminator="\n")
-    time_interval = codes.modules.time_explore.get_time_interval(test_time_file)
+    df = pd.read_csv('./file/' + test_time_file, encoding="utf-8", parse_dates=True, lineterminator="\n")
+    time_interval = time_explore.get_time_interval(test_time_file)
     print "test file time interval: " + str(time_interval)
     if time_interval == 0:
         time_interval = 1
@@ -63,7 +62,7 @@ def write_hotwords_to_file(hotwords):
     hotwords_list = []
     for hotword in hotwords:
         hotwords_list.append(hotword[1])
-    pickle.dump(hotwords_list, open('../file/' + codes.modules.util.hotwords_file, 'w'))
+    pickle.dump(hotwords_list, open('./file/' + config.hotwords_file, 'w'))
 if __name__ == "__main__":
     print "ok"
     train_time_file = "train_text_time_en.csv"

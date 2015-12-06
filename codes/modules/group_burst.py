@@ -1,7 +1,7 @@
 import pickle
 
-def group_burst(pickle_file,generate_file):
-    with open(pickle_file, 'r') as f:
+def group_burst(pickle_file, generate_file):
+    with open('./file/'+pickle_file, 'r') as f:
         t = pickle.loads(f.read())
     f.close()
     groups = []
@@ -47,8 +47,4 @@ def group_burst(pickle_file,generate_file):
     #         f.write(str(x[0]) + " " + str(x[1]) + '\n')
     #
     # f.close()
-    pickle.dump(result, open(generate_file, 'wb'))
-
-
-if __name__ == "__main__":
-    group_burst()
+    pickle.dump(result, open('./file/' + generate_file, 'wb'))

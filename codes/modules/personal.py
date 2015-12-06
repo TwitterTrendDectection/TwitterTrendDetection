@@ -56,12 +56,13 @@ def topics(mtx, word_set):
     for i, topic_dist in enumerate(topic_word):
         topic_words = np.array(list(word_set))[np.argsort(topic_dist)][:-(n_top_words+1):-1]
         res.append(topic_words.tolist())
-        print('Topic {}: {}'.format(i, ' '.join(topic_words)))
+        print(u'Topic {}: {}'.format(i, ' '.join(topic_words)))
     return res
 
 def main():
     print os.getcwd()
-    csv_list = glob.glob('../../file/personal/*.csv')
+    csv_list = glob.glob('../file/personal/*.csv')
+    print csv_list
     res = {}
     for x in csv_list:
         print x
@@ -71,23 +72,19 @@ def main():
         print mtx.shape
         t = topics(mtx, word_set)
         res[x] = t
-    pickle.dump(res, open('../../file/personal.pkl', 'wb'))
+    pickle.dump(res, open('../file/personal.pkl', 'wb'))
     return
 
 def trend():
     res = []
-    dict_list = pickle.load(open('../../file/word_dictionary_list.pkl', 'rb'))
-    mtx_list = pickle.load(open('../../file/trend_matrix.pkl', 'rb'))
+    dict_list = pickle.load(open('../file/word_dictionary_list.pkl', 'rb'))
+    mtx_list = pickle.load(open('../file/trend_matrix.pkl', 'rb'))
     for x in xrange(len(dict_list)):
         res.append(topics(mtx_list[x], dict_list[x]))
 
     return res
 
 if __name__ == "__main__":
-    #main()
+    # main()
     res = trend()
     print len(res)
-
-
-
-

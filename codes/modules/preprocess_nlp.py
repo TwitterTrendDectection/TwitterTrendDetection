@@ -94,7 +94,7 @@ def remove_words_contain_numbers(word_list):
 def remove_punctuation(raw_text):
     import string
     #remove punctuation
-    punctuation = string.punctuation + u'‘’“”…。，'
+    punctuation = string.punctuation + u'‘’“”…。，\u2013\x91\x92\xab\xac\u2665\u2022\xbb'
     for c in punctuation:
         raw_text = raw_text.replace(c,"")
     return raw_text

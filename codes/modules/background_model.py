@@ -6,7 +6,7 @@ import time
 import pandas as pd
 from preprocess_nlp import *
 
-import codes.modules.util
+import config
 
 
 class background_model:
@@ -62,11 +62,11 @@ class background_model:
 
     # def write_pos_tag_words(self):
     #
-    #     pickle.dump(self.visited, open('../file/' + util.pos_tag_filename,'w'))
+    #     pickle.dump(self.visited, open('../file/' + config.pos_tag_filename,'w'))
     #
     # def get_pos_tag_words(self):
     #
-    #     self.pos_tag = pickle.load(open('../file/' + util.pos_tag_filename,'r'))
+    #     self.pos_tag = pickle.load(open('../file/' + config.pos_tag_filename,'r'))
 
     def __init__(self, new_time_interval = 1):
         self.background_dictionary = {}
@@ -79,20 +79,18 @@ class background_model:
         # self.write_model_to_model_file()
         # self.close_model(f)
     # def open_model_write(self, ):
-    #     f = open('./file/' + util.model_filename,'w')
+    #     f = open('./file/' + config.model_filename,'w')
     #     return f
     # def close_model(self,f):
     #     f.close()
 
     def read_model_from_model_file(self):
-
-        self.background_dictionary = pickle.load(open('../file/' + codes.modules.util.background_dictionary_filename, 'r'))
-        self.time_interval = pickle.load(open('../file/' + codes.modules.util.time_interval_filename, 'r'))
+        self.background_dictionary = pickle.load(open('./file/' + config.background_dictionary_filename, 'r'))
+        self.time_interval = pickle.load(open('./file/' + config.time_interval_filename, 'r'))
 
     def write_model_to_model_file(self):
-
-        pickle.dump(self.background_dictionary, open('../file/' + codes.modules.util.background_dictionary_filename, 'w'))
-        pickle.dump(self.time_interval, open('../file/' + codes.modules.util.time_interval_filename, 'w'))
+        pickle.dump(self.background_dictionary, open('./file/' + config.background_dictionary_filename, 'w'))
+        pickle.dump(self.time_interval, open('./file/' + config.time_interval_filename, 'w'))
 
 
 if __name__ == "__main__":
@@ -108,5 +106,3 @@ if __name__ == "__main__":
     bm.read_model_from_model_file()
     for key in bm.background_dictionary:
         print key + " " + str(bm.background_dictionary[key])
-
-

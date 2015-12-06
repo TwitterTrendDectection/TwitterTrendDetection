@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 
 def get_time_interval(time_file):
-    df = pd.read_csv('../file/' + time_file, encoding = "utf-8", parse_dates = True, lineterminator = "\n")
+    df = pd.read_csv('./file/' + time_file, encoding = "utf-8", parse_dates = True, lineterminator = "\n")
     df['created_at'] = df['created_at'].astype('datetime64[ns]')
     df.drop('text', axis = 1, inplace = True)
     grouped = df.groupby('created_at')
