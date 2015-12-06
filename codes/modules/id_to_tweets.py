@@ -61,7 +61,7 @@ def construct_test_file_matrix(test_time_file):
         ith += 1
     # print count
     pickle.dump(res_list_matrix, open('./file/trend_matrix.pkl','wb'))
-    pickle.dump(list_word_dictionary, open('./file/word_dictionary_list.pkl','wb'))
+    pickle.dump(list_word_vector, open('./file/word_dictionary_list.pkl','wb'))
 
 
 def build_matrix(df, word_dictionary):
@@ -88,7 +88,7 @@ def build_dictionary(list_word_in_trend):
         if word not in dict:
             dict[word] = loc
             loc += 1
-        dict_vector.append(word)
+            dict_vector.append(word)
     return dict,dict_vector
 
 
