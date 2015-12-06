@@ -23,14 +23,11 @@ def preprocess(df):
         token_list.append(Counter(x))
     #pprint.pprint(text_list)
     word_list = [item for sublist in text_list for item in sublist]
-    #pprint.pprint(word_list)
-    word_set = set(word_list)
-    return token_list, word_set
+    return token_list, word_list
 
-def generateMatrix(token_list, word_set):
+def generateMatrix(token_list, word_list):
     m = len(token_list)
-    n = len(word_set)
-    word_list = list(word_set)
+    n = len(word_list)
     index_list = range(n)
     d = dict(zip(word_list, index_list))
     row_list = []
@@ -45,7 +42,7 @@ def generateMatrix(token_list, word_set):
     mtx = coo_matrix((data_list, (row_list, col_list)), shape = (m, n), dtype = np.int64)
     return mtx
 
-def topics(mtx, word_set):
+def topics(mtx, word_list):
     res = []
     #n_topics = mtx.shape[0]/100
     n_topics = 2
@@ -54,7 +51,7 @@ def topics(mtx, word_set):
     topic_word = model.topic_word_  # model.components_ also works
     n_top_words = 5
     for i, topic_dist in enumerate(topic_word):
-        topic_words = np.array(list(word_set))[np.argsort(topic_dist)][:-(n_top_words+1):-1]
+        topic_words = np.array(word_list)[np.argsort(topic_dist)][:-(n_top_words+1):-1]
         res.append(topic_words.tolist())
         print(u'Topic {}: {}'.format(i, ' '.join(topic_words)))
     return res
@@ -67,20 +64,23 @@ def main():
     for x in csv_list:
         print x
         df = pd.read_csv(x, encoding = 'utf-8')
-        token_list, word_set = preprocess(df)
-        mtx = generateMatrix(token_list, word_set)
+        token_list, word_list = preprocess(df)
+        mtx = generateMatrix(token_list, word_list)
         print mtx.shape
-        t = topics(mtx, word_set)
+        t = topics(mtx, word_list)
         res[x] = t
-    pickle.dump(res, open('../file/personal.pkl', 'wb'))
+    pickle.dump(res, open('./file/personal.pkl', 'wb'))
     return
 
 def trend():
     res = []
-    dict_list = pickle.load(open('../file/word_dictionary_list.pkl', 'rb'))
-    mtx_list = pickle.load(open('../file/trend_matrix.pkl', 'rb'))
+    dict_list = pickle.load(open('./file/word_dictionary_list.pkl', 'rb'))
+    mtx_list = pickle.load(open('./file/trend_matrix.pkl', 'rb'))
     for x in xrange(len(dict_list)):
-        res.append(topics(mtx_list[x], dict_list[x]))
+        print x
+        t = topics(mtx_list[x], dict_list[x])
+        print t
+        res.append(t)
 
     return res
 

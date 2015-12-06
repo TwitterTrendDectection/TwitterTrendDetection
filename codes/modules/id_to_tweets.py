@@ -24,7 +24,6 @@ def id_to_tweets(test_time_file):
         df_subset = df_test_file[df_test_file['id'].isin(id_list)]
         word_list = documents_to_word(df_subset)
         res.append(word_list)
-    print res[0]
     pickle.dump(res, open('./file/id_to_tweets.pkl','wb'))
 
 
@@ -50,8 +49,6 @@ def construct_test_file_matrix(test_time_file):
         #the dictionary will not contain stop words
         list_word_in_trend = id_to_tweets[ith]
         word_dictionary,dict_vector = build_dictionary(list_word_in_trend)
-        if ith == 0:
-            print df_subset
         m_trend = build_matrix(df_subset, word_dictionary)
 
         res_list_matrix.append(m_trend)

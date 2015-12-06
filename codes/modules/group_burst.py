@@ -22,7 +22,8 @@ def group_burst(pickle_file, generate_file):
             gj = groups[j]
             si = lists[i]
             sj = lists[j]
-            if len(si.intersection(sj)) >= thresh:
+            threshold = (len(si) + len(sj) + len(gi) + len(gj))/5;
+            if len(si.intersection(sj)) >= threshold:
                 groups[i] = gi.union(gj)
                 lists[i] = si.intersection(sj)
                 groups[j] = set()
@@ -30,7 +31,8 @@ def group_burst(pickle_file, generate_file):
 
     pairs = []
     for x in xrange(len(groups)):
-        pairs.append((groups[x], lists[x]))
+        if len(groups[x]) > 3 and len(lists[x])> 1:
+            pairs.append((groups[x], lists[x]))
 
 
     pairs.sort(key = lambda x: len(x[0]), reverse = True)
