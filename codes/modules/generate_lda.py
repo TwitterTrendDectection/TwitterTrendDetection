@@ -83,6 +83,7 @@ def file_reader(tweet_path):
             count += 1
             tweet = row['text']
             tweet_token, tweet_dict = tokenize(tweet, stop_word)
+
             token_list.append(tweet_token)
             dict_list.append(tweet_dict)
             if count == 1000:
