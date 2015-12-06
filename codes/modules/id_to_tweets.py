@@ -85,8 +85,9 @@ def build_dictionary(list_word_in_trend):
     dict_vector = []
     loc = 0
     for word in list_word_in_trend:
-        dict[word] = loc
-        loc += 1
+        if word not in dict:
+            dict[word] = loc
+            loc += 1
         dict_vector.append(word)
     return dict,dict_vector
 
