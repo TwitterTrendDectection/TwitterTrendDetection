@@ -58,11 +58,14 @@ def test_model(test_time_file, threshold = 10):
 
     return hotwords
 
+
 def write_hotwords_to_file(hotwords):
     hotwords_list = []
     for hotword in hotwords:
         hotwords_list.append(hotword[1])
     pickle.dump(hotwords_list, open('./file/' + config.hotwords_file, 'w'))
+
+
 if __name__ == "__main__":
     print "ok"
     train_time_file = "train_text_time_en.csv"

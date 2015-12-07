@@ -53,6 +53,7 @@ public class Twitter {
 	
 	public String text;
 	public String id;
+	public String lang;
 	public String created_at;
 	public Entity entities;
 }
