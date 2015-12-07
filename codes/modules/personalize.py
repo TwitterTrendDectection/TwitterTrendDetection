@@ -82,22 +82,16 @@ def generate_trend_topic(token_matrix_list, dict_list):
 
 
 def generate_user_recommendation(user_topic_map, trend_topic_map):
+    user_recommendation_map = {}
     for user_entry in user_topic_map:
         topic_list =  reduce(lambda x,y: x+y,user_topic_map[user_entry])
         topic_set = set(topic_list)
-        for trend_topic in trend_topic_map:
-
+        user_recommendation_map[user_entry] = []
+        for index,trend_topic in enumerate(trend_topic_map):
             if len(set(trend_topic[0]).intersection(set(topic_set))) > 0:
-                print '--------------------'
-                # print set(trend_topic[0])
-                # print set(topic_set)
-                print set(trend_topic[0]).intersection(set(topic_set))
-                print '--------------------'
-            # username =  user_entry
-            # topics = user_entry(1)
-            # print username
-            # print topics
-
+                user_recommendation_map[user_entry].append(index);
+                
+    return user_recommendation_map
 
 if __name__ == "__main__":
     # generate_personal_interest('./file/personal/')
@@ -107,4 +101,4 @@ if __name__ == "__main__":
     # generate_user_recommendation(user_topic_map, trend_topic_map)
     user_topic_map = pickle.load(open('./file/user_topic_map.pkl','rb'))
     trend_topic_map = pickle.load(open('./file/trend_topic_map.pkl','rb'))
-    user_recommendation_map = generate_user_recommendation(user_topic_map, trend_topic_map)
+    print generate_user_recommendation(user_topic_map, trend_topic_map)
