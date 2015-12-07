@@ -15,7 +15,6 @@ generate_hotword_to_tweet_dictionary(tweet_test_file = test_time_file, hotword_f
 group_burst(pickle_file = word_to_set_file, generate_file=generate_groupburst_file)
 
 id_to_tweets(test_time_file)
-#
 construct_test_file_matrix('test_sorted_tweets_en.csv')
 a = pickle.load(open('./file/word_dictionary_list.pkl','rb'))
 print a[0]
