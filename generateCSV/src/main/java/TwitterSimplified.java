@@ -5,6 +5,7 @@ import java.util.List;
 public class TwitterSimplified {
 	public String text;
 	public String id;
+	public String lang;
 	public String created_at;
 	public List<List<String>> hash_tags;
 	public List<List<String>> urls;
@@ -12,6 +13,8 @@ public class TwitterSimplified {
 	public TwitterSimplified(Twitter t) {
 		text = t.text;
 		id = t.id;
+		lang = t.lang;
+		
 		created_at = t.created_at;
 		hash_tags = new ArrayList<List<String>>();
 		urls = new ArrayList<List<String>>();
