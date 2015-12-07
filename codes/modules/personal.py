@@ -77,9 +77,9 @@ def trend():
     dict_list = pickle.load(open('./file/word_dictionary_list.pkl', 'rb'))
     mtx_list = pickle.load(open('./file/trend_matrix.pkl', 'rb'))
     for x in xrange(len(dict_list)):
-        print x
+        # print x
         t = topics(mtx_list[x], dict_list[x])
-        print t
+        # print t
         res.append(t)
 
     return res

@@ -5,6 +5,8 @@ from modules.group_burst import group_burst
 from modules.config import *
 from modules.id_to_tweets import *
 from modules.personal import trend
+
+
 train_time_file = "train_text_time_en.csv"
 train_save_model(train_time_file)
 
