@@ -1,9 +1,7 @@
 import pickle
 
-def group_burst(pickle_file, generate_file):
-    with open('./file/'+pickle_file, 'r') as f:
-        t = pickle.loads(f.read())
-    f.close()
+def group_burst(hotword_to_tweets):
+    t = hotword_to_tweets
     groups = []
     lists = []
 
@@ -48,4 +46,5 @@ def group_burst(pickle_file, generate_file):
     #         f.write(str(x[0]) + " " + str(x[1]) + '\n')
     #
     # f.close()
-    pickle.dump(result, open('./file/' + generate_file, 'wb'))
+    # pickle.dump(result, open('./file/' + generate_file, 'wb'))
+    return result

@@ -13,52 +13,53 @@ def documents_to_word(data_frame):
     return word_list
 
 
-def id_to_tweets(test_time_file):
-    group_trends = pickle.load(open('./file/' + generate_groupburst_file,'rb'))
+def generate_trend_to_tweets(trend_groups, test_time_file):
     df_test_file = pd.read_csv('./file/' + test_time_file, encoding="utf-8", parse_dates=True, lineterminator="\n")
 
     res = []
-    for trend_tuple in group_trends:
+    for trend_tuple in trend_groups:
         id_set = trend_tuple[1]
         id_list = list(id_set)
         df_subset = df_test_file[df_test_file['id'].isin(id_list)]
         word_list = documents_to_word(df_subset)
         res.append(word_list)
-    pickle.dump(res, open('./file/id_to_tweets.pkl','wb'))
+    # pickle.dump(res, open('./file/trend_to_tweets.pkl','wb'))
+    return res
 
 
-def construct_test_file_matrix(test_time_file):
-    # id_to_tweets is file contains all words for each trend
+def construct_test_file_matrix(test_time_file, trend_to_tweets, trend_groups):
+    # trend_to_tweets is file contains all words for each trend
 
     # then for each trend, we want to construct list of trend matrix where each element is a matrix
     # also keep a list of list where sublist contains
 
-    id_to_tweets = pickle.load(open('./file/id_to_tweets.pkl','rb'))
+    # trend_to_tweets = pickle.load(open('./file/trend_to_tweets.pkl','rb'))
     df_test_file = pd.read_csv('./file/' + test_time_file, encoding="utf-8", parse_dates=True, lineterminator="\n")
-    group_trends = pickle.load(open('./file/' + generate_groupburst_file,'rb'))
+    # trend_groups = pickle.load(open('./file/' + generate_groupburst_file,'rb'))
     ith = 0
-    res_list_matrix = []
-    list_word_vector = []
+    token_matrix = []
+    trend_words_list = []
     list_word_dictionary = []
     # count = 0
-    for trend_tuple in group_trends:
+    for trend_tuple in trend_groups:
         id_set = trend_tuple[1]
         id_list = list(id_set)
         df_subset = df_test_file[df_test_file['id'].isin(id_list)]
         df_subset = word_list_preprocess(df_subset)
         #the dictionary will not contain stop words
-        list_word_in_trend = id_to_tweets[ith]
+        list_word_in_trend = trend_to_tweets[ith]
         word_dictionary,dict_vector = build_dictionary(list_word_in_trend)
         m_trend = build_matrix(df_subset, word_dictionary)
 
-        res_list_matrix.append(m_trend)
-        list_word_vector.append(dict_vector)
+        token_matrix.append(m_trend)
+        trend_words_list.append(dict_vector)
         list_word_dictionary.append(word_dictionary)
 
         ith += 1
     # print count
-    pickle.dump(res_list_matrix, open('./file/trend_matrix.pkl','wb'))
-    pickle.dump(list_word_vector, open('./file/word_dictionary_list.pkl','wb'))
+    return token_matrix, trend_words_list
+    # pickle.dump(token_matrix, open('./file/trend_matrix.pkl','wb'))
+    # pickle.dump(trend_words_list, open('./file/word_dictionary_list.pkl','wb'))
 
 
 def build_matrix(df, word_dictionary):
@@ -99,5 +100,5 @@ def word_list_preprocess(data_frame):
     return list_tweets
 
 # if __name__ == "__main__":
-    # id_to_tweets('test_sorted_tweets_en.csv')
+    # trend_to_tweets('test_sorted_tweets_en.csv')
     # construct_test_file_matrix('../file/test_sorted_tweets_en.csv')
