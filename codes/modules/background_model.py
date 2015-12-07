@@ -15,6 +15,10 @@ class background_model:
         # wnl = WordNetLemmatizer()
 
         start = time.time()
+        data_frame['text'] = data_frame['text'].apply(lambda content: remove_retweet_prefix(content))
+        print "time to remove people mention: " + str(time.time() - start)
+
+        start = time.time()
         data_frame['text'] = data_frame['text'].apply(lambda content: remove_punctuation(content))
         print "time to remove punctuation: " + str(time.time() - start)
 
@@ -94,7 +98,7 @@ class background_model:
 
 
 if __name__ == "__main__":
-    df = pd.DataFrame(["There is also a corpus of instant messaging chat sessions",
+    df = pd.DataFrame(["RT @sdas: There is also a corpus of instant messaging chat sessions",
                        "originally collected by the Naval Postgraduate School for research",
                        "on automatic detection of Internet predators. The corpus contains",
                        "over 10,000 posts, anonymized by replacing usernames with generic names of"

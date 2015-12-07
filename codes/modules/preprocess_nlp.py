@@ -7,6 +7,8 @@ from nltk.stem import WordNetLemmatizer
 # from nltk.stem.lancaster import LancasterStemmer
 from nltk import pos_tag
 from nltk.stem.snowball import SnowballStemmer
+import re
+
 def lowercase(word_list):
     for i in range(len(word_list)):
         word_list[i] = word_list[i].lower()
@@ -76,6 +78,9 @@ def lemmetize(word_list, wnl, visited):
     #         visited[item[0]] = lemmetized
     return res
 
+
+def remove_retweet_prefix(content):
+    return re.sub(r'RT .*:', '', content)
 
 def remove_stop_words(word_list):
     from nltk.corpus import stopwords

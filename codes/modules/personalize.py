@@ -1,14 +1,14 @@
-import os
+
 import glob
 import pandas as pd
 from preprocess_nlp import *
 import numpy as np
-import pprint
+
 from collections import Counter
 from scipy.sparse import coo_matrix
 import lda
 import pickle
-from os.path import basename
+
 
 
 
@@ -84,7 +84,7 @@ def generate_trend_topic(token_matrix_list, dict_list):
 def generate_user_recommendation(user_topic_map, trend_topic_map):
     user_recommendation_map = {}
     for user_entry in user_topic_map:
-        topic_list =  reduce(lambda x,y: x+y,user_topic_map[user_entry])
+        topic_list = reduce(lambda x,y: x+y,user_topic_map[user_entry])
         topic_set = set(topic_list)
         user_recommendation_map[user_entry] = []
         for index,trend_topic in enumerate(trend_topic_map):

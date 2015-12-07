@@ -46,5 +46,5 @@ def group_burst(hotword_to_tweets):
     #         f.write(str(x[0]) + " " + str(x[1]) + '\n')
     #
     # f.close()
-    # pickle.dump(result, open('./file/' + generate_file, 'wb'))
+    pickle.dump(result, open('./file/trend_group.pkl', 'wb'))
     return result
