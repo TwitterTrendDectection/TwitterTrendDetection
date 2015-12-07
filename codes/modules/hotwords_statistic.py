@@ -3,10 +3,9 @@ import pandas as pd
 import pickle
 
 word_to_set = {}
-hotword_list = set()
-def count(content):
+def count(content, hotword_set):
     for word in content['list_words']:
-        if word in hotword_list:
+        if word in hotword_set:
             tweet_set = word_to_set.get(word)
             if tweet_set is None:
                 tweet_set = set()
@@ -17,8 +16,8 @@ def generate_hotword_to_tweets(hotword_list, tweet_test_file):
     df_2 = pd.read_csv('./file/'+tweet_test_file, encoding="utf-8", parse_dates=True, lineterminator="\n")
     test_bm = background_model(new_time_interval = 1)
     test_bm.read_data_frame(df_2)
-    hotword_list = set(hotword_list)
-    df_2.apply(lambda content: count(content), axis=1)
+    hotword_set = set(hotword_list)
+    df_2.apply(lambda content: count(content, hotword_set), axis=1)
     return word_to_set
 
 if __name__ == "__main__":

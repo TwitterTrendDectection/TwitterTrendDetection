@@ -23,7 +23,8 @@ def generate_trend_to_tweets(trend_groups, test_time_file):
         df_subset = df_test_file[df_test_file['id'].isin(id_list)]
         word_list = documents_to_word(df_subset)
         res.append(word_list)
-    pickle.dump(res, open('./file/trend_to_tweets.pkl','wb'))
+    # pickle.dump(res, open('./file/trend_to_tweets.pkl','wb'))
+    return res
 
 
 def construct_test_file_matrix(test_time_file, trend_to_tweets, trend_groups):

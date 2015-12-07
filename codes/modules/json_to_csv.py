@@ -9,8 +9,8 @@ import csv
 
 # read json files into pandas
 def pandas_json():
-    json_file_names = gb.glob("../data/*.json")
-    
+    json_file_names = gb.glob("./simplified_json/*.json")
+
     for json_file in json_file_names:
         data = []
         print json_file
@@ -20,7 +20,7 @@ def pandas_json():
                 continue
             data.append(pd.read_json(line))
         data = pd.concat(data)
-        data.to_csv('../csv_file/{}.csv'.format(json_file.split('/')[-1]), index=False, index_label=True, encoding='utf-8')
+        data.to_csv('./csv_file/{}.csv'.format(json_file.split('/')[-1]), index=False, index_label=True, encoding='utf-8')
     # output_data = data
     # output_data.to_csv('csv_files/df_text_date.csv', index=False, index_label=True, encoding='utf-8')
 

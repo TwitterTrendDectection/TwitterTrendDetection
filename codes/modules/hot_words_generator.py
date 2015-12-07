@@ -54,16 +54,17 @@ def test_model(test_time_file, threshold = 10):
 
     generator = hot_words_generator(trained_background_model,test_background_model,threshold)
     hotwords = generator.detect_hot_words()
-    write_hotwords_to_file(hotwords)
+    hotwords_list = write_hotwords_to_file(hotwords)
 
-    return hotwords
+    return hotwords_list
 
 
 def write_hotwords_to_file(hotwords):
     hotwords_list = []
     for hotword in hotwords:
         hotwords_list.append(hotword[1])
-    pickle.dump(hotwords_list, open('./file/' + config.hotwords_file, 'w'))
+    # pickle.dump(hotwords_list, open('./file/' + config.hotwords_file, 'w'))
+    return hotwords_list
 
 
 if __name__ == "__main__":
