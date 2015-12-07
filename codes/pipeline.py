@@ -3,6 +3,7 @@ from modules.hotwords_statistic import generate_hotword_to_tweets
 
 from modules.group_burst import group_burst
 from modules.config import *
+
 from modules.trend_to_tweets import construct_test_file_matrix, generate_trend_to_tweets
 from modules.personalize import generate_trend_topic, generate_personal_interest, generate_user_recommendation
 import pickle

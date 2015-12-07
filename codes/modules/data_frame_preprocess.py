@@ -2,7 +2,9 @@ import langid
 import pandas as pd
 import re
 
-
+import numpy as np
+import csv
+from datetime import datetime
 def language_identify(content):
     threshold = 0.5
     if content == "":
@@ -48,16 +50,88 @@ def extract_link(list_text):
     return link_group
 
 
-def example():
-    df = pd.read_csv("table1000.csv")
-    df['tweet_text'] = df['tweet_text'].apply(lambda content:filter_question_mark(content))
-    df['lang'] = df['tweet_text'].apply(lambda content: language_identify(content))
-    df['link'] = df['tweet_text'].apply(lambda content: extract_link(content))
-    # TODO: df['hashtag'] = df['tweet_text'].apply(lambda content: xxx(content)) #xxx return hashtags' list
 
-    # TODO: df['at_people'] = df['tweet_text'].apply(lambda content: xxx(content)) #xxx return at_people list
-    print df['lang'].value_counts()
+def process_only_english(time_file):
+    df = pd.read_csv('./file/' + time_file, encoding = "utf-8", parse_dates = True, lineterminator = "\n")
 
+    df['created_at'] = df['created_at'].astype('datetime64[ns]')
+
+    df.sort(inplace = True)
+    df.to_csv('./file/test_all_file.csv',encoding = 'utf-8')
+
+
+def read_csv():
+    import json
+    import glob as gb
+    csv_file_names = gb.glob("./file/csv_file/*.csv")
+    # print json_file_names[0]
+    data = []
+    # frames = [df1, df2, df3]
+    frames = []
+    # In [5]: result = pd.concat(frames)
+
+    for file_name in csv_file_names:
+        # print file_name
+        df = pd.read_csv(file_name, encoding = "utf-8", parse_dates = True, lineterminator = "\n", quoting=csv.QUOTE_ALL, delimiter=',')
+        df['created_at'] = df['created_at'].astype('datetime64[ns]')
+        df = df[df['lang'] == 'en']
+        frames.append(df)
+
+
+    data = pd.concat(frames)
+
+    # grouped = data.groupby('created_at')
+    # df_count = grouped.count()
+    data.sort_values(by = 'created_at',inplace = True)
+    data.to_csv('./file/all_en_file.csv',encoding = 'utf-8',index=False, index_label=False)
+    # return data
+
+def get_specific_time(specific_day, specific_start_hour, specific_end_hour):
+    df = pd.read_csv('./file/all_en_file.csv', encoding = "utf-8", parse_dates = True, lineterminator = "\n", quoting=csv.QUOTE_ALL, delimiter=',')
+    count = len(df.index) - 1
+    sum = 0
+    frames = []
+    start = 0
+    end = count
+    while count >= 0:
+        # print count
+        row = df.iloc[count]
+        time = row['created_at']
+        time = str(time)
+        spli = time.split()
+        date = spli[0].split('-')
+        # date = date[0]
+        # print date
+        d = datetime(int(date[0]), int(date[1]),int(date[2]))
+        if d < specific_day:
+            break
+        elif d == specific_day:
+            # print int(spli[1][0:2])
+            if int(spli[1][0:2]) >= int(specific_start_hour) and int(spli[1][0:2]) < int(specific_end_hour):
+                sum += 1
+            if int(spli[1][0:2]) < int(specific_start_hour):
+                start = count
+                print "start" + str(start)
+                break
+            if int(spli[1][0:2]) >= int(specific_end_hour):
+                end = count
+                print "end" + str(end)
+
+
+        count = count - 1
+    print start
+    print end
+    df_train = df[:count]
+    # df_test = pd.concat(frames)
+    df_test = df[start+1:end]
+    df_train.to_csv('./file/train_en_file2.csv',encoding = 'utf-8',index=False, index_label=False)
+    df_test.to_csv('./file/test_en_file2.csv',encoding = 'utf-8',index=False, index_label=False)
+    print sum
 
 if __name__ == "__main__":
-    example()
+    # process_only_english('df_all_data.csv')
+    # read_csv()
+    # specific_day = '03-08'
+    specific_start_hour = '19'
+    specific_end_hour = '23'
+    get_specific_time(datetime(2011,3,7),specific_start_hour,specific_end_hour)
