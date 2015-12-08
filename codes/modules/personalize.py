@@ -89,7 +89,10 @@ def generate_user_recommendation(user_topic_map, trend_topic_map):
         user_recommendation_map[user_entry] = []
         for index,trend_topic in enumerate(trend_topic_map):
             if len(set(trend_topic[0]).intersection(set(topic_set))) > 0:
-                user_recommendation_map[user_entry].append(index);
+                user_recommendation_map[user_entry].append(index)
+                print user_entry
+                print index
+                print set(trend_topic[0]).intersection(set(topic_set))
                 
     return user_recommendation_map
 
@@ -101,4 +104,7 @@ if __name__ == "__main__":
     # generate_user_recommendation(user_topic_map, trend_topic_map)
     user_topic_map = pickle.load(open('./file/user_topic_map.pkl','rb'))
     trend_topic_map = pickle.load(open('./file/trend_topic_map.pkl','rb'))
-    print generate_user_recommendation(user_topic_map, trend_topic_map)
+    # print generate_user_recommendation(user_topic_map, trend_topic_map
+    # print user_topic_map
+    for key in user_topic_map:
+        print key + " " + str(user_topic_map[key])

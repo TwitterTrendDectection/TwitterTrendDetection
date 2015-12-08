@@ -8,6 +8,7 @@ def recommend_tweets(trend_map, user_recommendation_map):
     tweets = pd.read_csv('./file/all_en_file.csv', encoding = "utf-8", parse_dates = True, lineterminator = "\n", quoting=csv.QUOTE_ALL, delimiter=',')
     res_recommendation = []
     for person in user_recommendation_map:
+        print person
         # print user_recommendation_map[person]
         person_recommendation = []
         trend_list = user_recommendation_map[person]
@@ -16,6 +17,9 @@ def recommend_tweets(trend_map, user_recommendation_map):
             tweet_ids = list(tweet_ids)
             choose = randint(0,len(tweet_ids) - 1)
             choose_one = tweets[tweets['id'] == tweet_ids[choose]]
+            print trend
+            print person
+            print choose_one['text']
             person_recommendation.append(choose_one['id'])
 
         res_recommendation.append(person_recommendation)
