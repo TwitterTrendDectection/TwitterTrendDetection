@@ -7,7 +7,7 @@ import time_explore
 from background_model import background_model
 
 
-class hot_words_generator:
+class key_burst:
     def __init__(self, train_model, test_model, threshold):
         self.train_model = train_model
         self.test_model = test_model
@@ -52,7 +52,7 @@ def test_model(test_time_file, threshold = 10):
     trained_background_model = background_model()
     trained_background_model.read_model_from_model_file()
 
-    generator = hot_words_generator(trained_background_model,test_background_model,threshold)
+    generator = key_burst(trained_background_model,test_background_model,threshold)
     hotwords = generator.detect_hot_words()
     hotwords_list = write_hotwords_to_file(hotwords)
 

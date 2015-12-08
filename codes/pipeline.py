@@ -1,4 +1,4 @@
-from modules.hot_words_generator import train_save_model,test_model
+from modules.key_burst import train_save_model,test_model
 from modules.hotwords_statistic import generate_hotword_to_tweets
 
 from modules.group_burst import group_burst
@@ -36,5 +36,3 @@ print trend_groups
 # user_recommendation_map = pickle.load(open('./file/user_recommendation_map.pkl','rb'))
 # res_recommend = recommend_tweets(trend_map, user_recommendation_map)
 # print res_recommend[0]
-
-
