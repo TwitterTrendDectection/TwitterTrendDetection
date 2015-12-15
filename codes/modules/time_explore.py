@@ -11,6 +11,8 @@ def get_time_interval(time_file):
     # df_count.to_csv("../../test_sorted_tweets_en2.csv")
     time_max = df_count.index.max()
     time_min = df_count.index.min()
+    print "{} contains {} tweets range from {} to {}".format(time_file, len(df),
+                                                            time_min, time_max)
     interval = time_max - time_min
     interval = interval / np.timedelta64(1,'h')
     return interval
@@ -23,6 +25,6 @@ if __name__ == "__main__":
     # time = get_time_interval(train_file)
     #
     # print time
-    test_file = "df_all_data.csv"
+    test_file = "test_sorted_tweets_en.csv"
     time = get_time_interval(test_file)
     print time

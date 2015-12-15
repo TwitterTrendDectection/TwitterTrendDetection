@@ -31,10 +31,6 @@ class background_model:
         print "time to lowercase words in word_list: " + str(time.time() - start)
 
         start = time.time()
-        data_frame['list_words'] = data_frame['list_words'].apply(lambda word_list: remove_stop_words(word_list))
-        print "time to remove stop words: " + str(time.time() - start)
-
-        start = time.time()
         # for i, row in data_frame.iterrows():
         #     if i % 100 == 0:
         #         print i
