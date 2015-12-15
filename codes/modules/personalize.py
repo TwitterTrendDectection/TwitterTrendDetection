@@ -97,14 +97,15 @@ def generate_user_recommendation(user_topic_map, trend_topic_map):
     return user_recommendation_map
 
 if __name__ == "__main__":
-    # generate_personal_interest('./file/personal/')
-    # trend_words_list = pickle.load(open('./file/word_dictionary_list.pkl', 'rb'))
-    # token_matrix_list = pickle.load(open('./file/trend_matrix.pkl', 'rb'))
-    # res = generate_trend_topic(token_matrix_list, trend_words_list)
-    # generate_user_recommendation(user_topic_map, trend_topic_map)
+    generate_personal_interest('./file/personal/')
+    trend_words_list = pickle.load(open('./file/word_dictionary_list.pkl', 'rb'))
+    token_matrix_list = pickle.load(open('./file/trend_matrix.pkl', 'rb'))
+    res = generate_trend_topic(token_matrix_list, trend_words_list)
+
     user_topic_map = pickle.load(open('./file/user_topic_map.pkl','rb'))
     trend_topic_map = pickle.load(open('./file/trend_topic_map.pkl','rb'))
+    print generate_user_recommendation(user_topic_map, trend_topic_map)
     # print generate_user_recommendation(user_topic_map, trend_topic_map
     # print user_topic_map
-    for key in user_topic_map:
-        print key + " " + str(user_topic_map[key])
+    # for key in user_topic_map:
+    #     print key + " " + str(user_topic_map[key])

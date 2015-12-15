@@ -12,8 +12,6 @@ import config
 class background_model:
     def read_data_frame(self, data_frame):
 
-        # wnl = WordNetLemmatizer()
-
         start = time.time()
         data_frame['text'] = data_frame['text'].apply(lambda content: remove_retweet_prefix(content))
         print "time to remove people mention: " + str(time.time() - start)
@@ -35,15 +33,8 @@ class background_model:
         print "time to remove stop words: " + str(time.time() - start)
 
         start = time.time()
-        # for i, row in data_frame.iterrows():
-        #     if i % 100 == 0:
-        #         print i
-        #     word_list = row['list_words']
-        #     data_frame.set_value(i, 'list_words',lemmetize(word_list, wnl, self.visited))
         data_frame['list_words'] = data_frame['list_words'].apply(lambda word_list: stemmize(word_list))
         print "time to stemmetize: " + str(time.time() - start)
-
-        # self.write_pos_tag_words()
 
         start = time.time()
         data_frame['list_words'] = data_frame['list_words'].apply(lambda word_list: remove_stop_words(word_list))
@@ -64,29 +55,12 @@ class background_model:
 
         print "time to generate model dictionary: " + str(time.time() - start)
 
-    # def write_pos_tag_words(self):
-    #
-    #     pickle.dump(self.visited, open('../file/' + config.pos_tag_filename,'w'))
-    #
-    # def get_pos_tag_words(self):
-    #
-    #     self.pos_tag = pickle.load(open('../file/' + config.pos_tag_filename,'r'))
-
-    def __init__(self, new_time_interval = 1):
+    def __init__(self, new_time_interval=1):
+        # default time interval is 1 hour
         self.background_dictionary = {}
-        self.time_interval = new_time_interval# default time interval is 1 hour
-        # self.visited = {}
-    # def read_file(self, word_list):
-        # f = self.open_model_write()
-        # for word in word_list:
-        #     self.add_word_count(word)
-        # self.write_model_to_model_file()
-        # self.close_model(f)
-    # def open_model_write(self, ):
-    #     f = open('./file/' + config.model_filename,'w')
-    #     return f
-    # def close_model(self,f):
-    #     f.close()
+        self.time_interval = new_time_interval
+
+
 
     def read_model_from_model_file(self):
         self.background_dictionary = pickle.load(open('./file/' + config.background_dictionary_filename, 'r'))

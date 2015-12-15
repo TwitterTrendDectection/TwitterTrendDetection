@@ -17,9 +17,9 @@ def recommend_tweets(trend_map, user_recommendation_map):
             tweet_ids = list(tweet_ids)
             choose = randint(0,len(tweet_ids) - 1)
             choose_one = tweets[tweets['id'] == tweet_ids[choose]]
-            print trend
-            print person
-            print choose_one['text']
+            # print trend
+            # print person
+            # print choose_one['text']
             person_recommendation.append(choose_one['id'])
 
         res_recommendation.append(person_recommendation)

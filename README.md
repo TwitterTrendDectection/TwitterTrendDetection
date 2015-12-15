@@ -2,7 +2,7 @@
 Twitter Trend Detection
 
 The structure of the project:
-----codes python code
+1.codes python code
 	----pipeline.py the pipeline python script to run the 		project
 	----modules different modules responsible for different 	procedure of personalized trend generation
 		----config.py all parameters like the input and 		output file name setting up here
@@ -29,3 +29,4 @@ The structure of the project:
 	If you'd like to run the whole program, you will need to specify the file names in the config.py and also specify the training data and test data file names in the pipeline.py. 
 
 	The whole program will run for several minutes and you can choose which part to run or not also in the pipeline.py.
+

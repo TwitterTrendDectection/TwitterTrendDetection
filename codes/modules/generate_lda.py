@@ -107,13 +107,5 @@ def tokenize(text, stop_words):
     return str_token, text_dict
 
 
-# def stopword_reader():
-#     list_path = "resources/stopword.list"
-#     word_set = set()
-#     list_file = open(list_path, 'r').read().split("\n")
-#     for line in list_file:
-#         word_set.add(line)
-#     return word_set
-
 if __name__ == "__main__":
     engine(10,5)
