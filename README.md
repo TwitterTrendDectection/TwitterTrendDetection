@@ -22,6 +22,9 @@ Different modules responsible for different procedure of personalized trend gene
 - personalize.py (LDA algorithm to extract topic from user profile and test data)
 - recommend\_tweets.py (recommend tweets for specific user based on similarity between their LDA results)
 
+#### ./codes/generateCSV 
+Java code used to flatten the crawled data from the web
+
 ## ./file/
 Training data(csv), testing data(csv) and all the generated files
 The user profile we used are @JayZClassicBars, @KeyAndPeele, @realDonaldTrump, @taylorswift13.
@@ -30,8 +33,7 @@ The training and testing data we used are meaningly extracted from 2011, in term
 
 ### ./file/tweets 
 The original tweets crawled using twitter API
-### ./file/generateCSV 
-Java code used to flatten the crawled data from the web
+
 
 If you'd like to run the whole program, you will need to specify the file names in the config.py and also specify the training data and test data file names in the pipeline.py. 
 
